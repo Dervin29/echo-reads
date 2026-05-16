@@ -1,20 +1,21 @@
-import { LoaderCircle } from "lucide-react";
+'use client';
 
-interface LoadingOverlayProps {
-  title?: string;
-}
+import { Loader2 } from 'lucide-react';
 
-const LoadingOverlay = ({ title = "Processing..." }: LoadingOverlayProps) => {
-  return (
-    <div className="loading-wrapper">
-      <div className="loading-shadow-wrapper bg-white">
-        <div className="loading-shadow">
-          <LoaderCircle className="loading-animation size-12 text-[#663820]" />
-          <p className="loading-title">{title}</p>
+const LoadingOverlay = () => {
+    return (
+        <div className="loading-wrapper">
+            <div className="loading-shadow-wrapper bg-white shadow-soft-lg">
+                <div className="loading-shadow">
+                    <Loader2 className="loading-animation w-12 h-12 text-[#663820]" />
+                    <h2 className="loading-title">Synthesizing Your Book</h2>
+                    <p className="text-[#777] text-center max-w-xs">
+                        Please wait while we process your PDF and prepare your interactive literary experience.
+                    </p>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default LoadingOverlay;
