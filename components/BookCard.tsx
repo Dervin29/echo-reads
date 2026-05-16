@@ -1,7 +1,6 @@
 import { BookCardProps } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
 
 const BookCard = ({ title, author, slug, coverURL }: BookCardProps) => {
   return (
@@ -14,7 +13,7 @@ const BookCard = ({ title, author, slug, coverURL }: BookCardProps) => {
               alt={title}
               width={133}
               height={200}
-              className="book-card-cover"
+              className="book-card-cover h-auto"
               style={{ width: "auto" }}
             />
             <figcaption className="book-card-meta">

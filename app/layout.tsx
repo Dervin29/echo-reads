@@ -7,6 +7,8 @@ import "./globals.css";
 
 import { ui } from "@clerk/ui";
 
+import { Toaster } from "sonner";
+
 const ibmPlexSerif = IBM_Plex_Serif({
   variable: "--font-ibm-plex-serif",
   subsets: ["latin"],
@@ -40,6 +42,7 @@ export default function RootLayout({
         >
           <Navbar />
           {children}
+          <Toaster position="bottom-right" />
         </body>
       </html>
     </ClerkProvider>
