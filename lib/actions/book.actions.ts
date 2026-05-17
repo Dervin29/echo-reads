@@ -9,7 +9,6 @@ import { getUserPlan } from "@/lib/subscription.server";
 import BookSegment from "@/database/models/book-segment.models";
 import { revalidatePath } from "next/cache";
 
-revalidatePath("/");
 
 export const getAllBooks = async (search?: string) => {
   try {
@@ -35,7 +34,7 @@ export const getAllBooks = async (search?: string) => {
     console.error("Error connecting to database", e);
     return {
       success: false,
-      error: e,
+      error: (e as Error).message,
     };
   }
 };
@@ -62,7 +61,7 @@ export const checkBookExists = async (title: string) => {
     console.error("Error checking book exists", e);
     return {
       exists: false,
-      error: e,
+      error: (e as Error).message,
     };
   }
 };
@@ -83,7 +82,6 @@ export const createBook = async (data: CreateBook) => {
       };
     }
 
-    // Todo: Check subscription limits before creating a book
     const { PLAN_LIMITS } = await import("@/lib/subscription-constants");
 
     const { auth } = await import("@clerk/nextjs/server");
@@ -128,7 +126,7 @@ export const createBook = async (data: CreateBook) => {
 
     return {
       success: false,
-      error: e,
+      error: (e as Error).message,
     };
   }
 };
@@ -151,7 +149,7 @@ export const getBookBySlug = async (slug: string) => {
     console.error("Error fetching book by slug", e);
     return {
       success: false,
-      error: e,
+      error: (e as Error).message,
     };
   }
 };
@@ -192,7 +190,7 @@ export const saveBookSegments = async (
 
     return {
       success: false,
-      error: e,
+      error: (e as Error).message,
     };
   }
 };

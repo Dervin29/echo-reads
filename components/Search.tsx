@@ -1,32 +1,27 @@
 'use client';
 
-import React, {useEffect, useState} from 'react';
-import {Input} from "@/components/ui/input";
-import {Search as SearchIcon} from "lucide-react";
-import {usePathname, useRouter, useSearchParams} from "next/navigation";
+import { Input } from "@/components/ui/input";
+import { Search as SearchIcon } from "lucide-react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const Search = () => {
     const searchParams = useSearchParams();
     const router = useRouter();
     const pathname = usePathname();
+    const query = searchParams.get('query') || '';
 
-    const [query, setQuery] = useState(searchParams.get('query') || '');
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const params = new URLSearchParams(searchParams.toString());
+        const value = e.target.value;
 
-    useEffect(() => {
-        const delayDebounceFn = setTimeout(() => {
-            const params = new URLSearchParams(window.location.search);
+        if (value) {
+            params.set('query', value);
+        } else {
+            params.delete('query');
+        }
 
-            if (query) {
-                params.set('query', query);
-            } else {
-                params.delete('query');
-            }
-
-            router.replace(`${pathname}?${params.toString()}`, { scroll: false });
-        }, 300);
-
-        return () => clearTimeout(delayDebounceFn);
-    }, [query, pathname, router]);
+        router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+    };
 
     return (
         <div className="library-search-wrapper">
@@ -41,7 +36,7 @@ const Search = () => {
                 placeholder="Search books by title or author"
                 className="library-search-input border-none shadow-none focus-visible:ring-0"
                 value={query}
-                onChange={(e) => setQuery(e.target.value)}
+                onChange={handleChange}
             />
         </div>
     );
