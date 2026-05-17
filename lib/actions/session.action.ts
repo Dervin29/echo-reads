@@ -1,15 +1,33 @@
 'use server';
 
-
 import VoiceSession from "@/database/models/book-session.model";
+import VoiceSessionCounter from "@/database/models/voice-session-counter.model";
 import {connectToDatabase} from "@/database/mongoose";
 
+type StartSessionResult = {
+    success: boolean;
+    sessionId?: string;
+    maxDurationMinutes?: number;
+    error?: string;
+    isBillingError?: boolean;
+};
 
-export const startVoiceSession = async (clerkId: string, bookId: string): Promise<StartSessionResult> => {
+type EndSessionResult = {
+    success: boolean;
+    error?: string;
+};
+
+export const startVoiceSession = async (_clerkId: string, bookId: string): Promise<StartSessionResult> => {
     try {
         await connectToDatabase();
 
-        // Limits/Plan to see whether a session is allowed.
+        const { auth } = await import("@clerk/nextjs/server");
+        const { userId } = await auth();
+
+        if (!userId) {
+            return { success: false, error: "Unauthorized. Please sign in to start a session." };
+        }
+
         const { getUserPlan } = await import("@/lib/subscription.server");
         const { PLAN_LIMITS, getCurrentBillingPeriodStart } = await import("@/lib/subscription-constants");
 
@@ -17,12 +35,20 @@ export const startVoiceSession = async (clerkId: string, bookId: string): Promis
         const limits = PLAN_LIMITS[plan];
         const billingPeriodStart = getCurrentBillingPeriodStart();
 
-        const sessionCount = await VoiceSession.countDocuments({
-            clerkId,
-            billingPeriodStart
-        });
+        // Atomic counter increment with limit enforcement
+        const counter = await VoiceSessionCounter.findOneAndUpdate(
+            { clerkId: userId, billingPeriodStart },
+            { $inc: { count: 1 } },
+            { upsert: true, new: true }
+        );
 
-        if (sessionCount >= limits.maxSessionsPerMonth) {
+        if (counter.count > limits.maxSessionsPerMonth) {
+            // Rollback the counter
+            await VoiceSessionCounter.findOneAndUpdate(
+                { clerkId: userId, billingPeriodStart },
+                { $inc: { count: -1 } }
+            );
+
             const { revalidatePath } = await import("next/cache");
             revalidatePath("/");
 
@@ -34,7 +60,7 @@ export const startVoiceSession = async (clerkId: string, bookId: string): Promis
         }
 
         const session = await VoiceSession.create({
-            clerkId,
+            clerkId: userId,
             bookId,
             startedAt: new Date(),
             billingPeriodStart,
@@ -52,18 +78,26 @@ export const startVoiceSession = async (clerkId: string, bookId: string): Promis
     }
 }
 
-export const endVoiceSession = async (sessionId: string, durationSeconds: number): Promise<EndSessionResult> => {
+export const endVoiceSession = async (sessionId: string, ownerId: string, durationSeconds: number): Promise<EndSessionResult> => {
     try {
         await connectToDatabase();
 
-        const result = await VoiceSession.findByIdAndUpdate(sessionId, {
-            endedAt: new Date(),
-            durationSeconds,
-        });
+        const validatedDuration = Number(durationSeconds);
+        if (!Number.isFinite(validatedDuration) || validatedDuration < 0 || validatedDuration > 86400) {
+            return { success: false, error: 'Invalid session duration.' };
+        }
 
-        if(!result) return { success: false, error: 'Voice session not found.' }
+        const result = await VoiceSession.findOneAndUpdate(
+            { _id: sessionId, clerkId: ownerId },
+            { endedAt: new Date(), durationSeconds: Math.floor(validatedDuration) },
+            { new: true }
+        );
 
-        return { success: true }
+        if (!result) {
+            return { success: false, error: 'Unauthorized or session not found.' };
+        }
+
+        return { success: true };
     } catch (e) {
         console.error('Error ending voice session', e);
         return { success: false, error: 'Failed to end voice session. Please try again later.' }

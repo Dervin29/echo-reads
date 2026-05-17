@@ -43,7 +43,7 @@ export async function POST(request: Request): Promise<NextResponse> {
   } catch (error) {
     const message =
       error instanceof Error ? error.message : "An error occurred";
-    const status = message.includes("Unauthorized") ? 401 : 500;
+    const status = message.includes("Unauthorized") ? 401 : error instanceof SyntaxError || message.includes("Unexpected token") || message.includes("JSON") || message.includes("Malformed") ? 400 : 500;
     return NextResponse.json({ message }, { status });
   }
 }

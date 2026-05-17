@@ -106,7 +106,7 @@ export function useVapi(book: IBook) {
 
                 // End session tracking
                 if (sessionIdRef.current) {
-                    endVoiceSession(sessionIdRef.current, durationRef.current).catch((err) =>
+                    endVoiceSession(sessionIdRef.current, userId || '', durationRef.current).catch((err) =>
                         console.error('Failed to end voice session:', err),
                     );
                     sessionIdRef.current = null;
@@ -168,10 +168,11 @@ export function useVapi(book: IBook) {
                     }
 
                     setMessages((prev) => {
-                        const isDupe = prev.some(
-                            (m) => m.role === message.role && m.content === message.transcript,
-                        );
-                        return isDupe ? prev : [...prev, { role: message.role, content: message.transcript }];
+                        const lastMessage = prev[prev.length - 1];
+                        if (lastMessage?.role === message.role && lastMessage?.content === message.transcript) {
+                            return prev;
+                        }
+                        return [...prev, { role: message.role, content: message.transcript }];
                     });
                 }
             },
@@ -191,7 +192,7 @@ export function useVapi(book: IBook) {
 
                 // End session tracking on error
                 if (sessionIdRef.current) {
-                    endVoiceSession(sessionIdRef.current, durationRef.current).catch((err) =>
+                    endVoiceSession(sessionIdRef.current, userId || '', durationRef.current).catch((err) =>
                         console.error('Failed to end voice session on error:', err),
                     );
                     sessionIdRef.current = null;
@@ -220,7 +221,7 @@ export function useVapi(book: IBook) {
             // End active session on unmount
             if (sessionIdRef.current) {
                 getVapi().stop();
-                endVoiceSession(sessionIdRef.current, durationRef.current).catch((err) =>
+                endVoiceSession(sessionIdRef.current, userId || '', durationRef.current).catch((err) =>
                     console.error('Failed to end voice session on unmount:', err),
                 );
                 sessionIdRef.current = null;
@@ -278,6 +279,10 @@ export function useVapi(book: IBook) {
                 },
             });
         } catch (err) {
+            if (sessionIdRef.current) {
+                await endVoiceSession(sessionIdRef.current, userId, 0);
+                sessionIdRef.current = null;
+            }
             console.error('Failed to start call:', err);
             setStatus('idle');
             setLimitError('Failed to start voice session. Please try again.');

@@ -82,7 +82,6 @@ export const createBook = async (data: CreateBook) => {
         }
 
         // Todo: Check subscription limits before creating a book
-        const { getUserPlan } = await import("@/lib/subscription.server");
         const { PLAN_LIMITS } = await import("@/lib/subscription-constants");
 
         const { auth } = await import("@clerk/nextjs/server");
@@ -109,6 +108,9 @@ export const createBook = async (data: CreateBook) => {
         }
 
         const book = await Book.create({...data, clerkId: userId, slug, totalSegments: 0});
+
+        const { revalidatePath } = await import("next/cache");
+        revalidatePath("/");
 
         return {
             success: true,
@@ -204,6 +206,9 @@ export const searchBookSegments = async (bookId: string, query: string, limit: n
         // Fallback: regex search matching ANY keyword
         if (segments.length === 0) {
             const keywords = query.split(/\s+/).filter((k) => k.length > 2);
+            if (keywords.length === 0) {
+                return { success: true, data: serializeData(segments) };
+            }
             const pattern = keywords.map(escapeRegex).join('|');
 
             segments = await BookSegment.find({
