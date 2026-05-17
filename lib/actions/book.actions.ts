@@ -34,7 +34,7 @@ export const getAllBooks = async (search?: string) => {
     console.error("Error connecting to database", e);
     return {
       success: false,
-      error: (e as Error).message,
+      error: e instanceof Error ? e.message : "Unknown error",
     };
   }
 };
@@ -61,7 +61,7 @@ export const checkBookExists = async (title: string) => {
     console.error("Error checking book exists", e);
     return {
       exists: false,
-      error: (e as Error).message,
+      error: e instanceof Error ? e.message : "Unknown error",
     };
   }
 };
@@ -126,7 +126,7 @@ export const createBook = async (data: CreateBook) => {
 
     return {
       success: false,
-      error: (e as Error).message,
+      error: e instanceof Error ? e.message : "Unknown error",
     };
   }
 };
@@ -149,7 +149,7 @@ export const getBookBySlug = async (slug: string) => {
     console.error("Error fetching book by slug", e);
     return {
       success: false,
-      error: (e as Error).message,
+      error: e instanceof Error ? e.message : "Unknown error",
     };
   }
 };
@@ -190,7 +190,7 @@ export const saveBookSegments = async (
 
     return {
       success: false,
-      error: (e as Error).message,
+      error: e instanceof Error ? e.message : "Unknown error",
     };
   }
 };
@@ -252,7 +252,7 @@ export const searchBookSegments = async (
     console.error("Error searching segments:", error);
     return {
       success: false,
-      error: (error as Error).message,
+      error: error instanceof Error ? error.message : "Unknown error",
       data: [],
     };
   }

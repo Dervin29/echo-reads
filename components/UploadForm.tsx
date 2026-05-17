@@ -132,7 +132,7 @@ const UploadForm = () => {
 
       if (!book.success) {
         if (book.isBillingError) {
-          toast.error(book.error);
+          toast.error(book.error || "Failed to upload book. Please try again later.");
           router.push("/subscriptions");
         } else {
           toast.error(book.error || "Failed to upload book. Please try again later.");
