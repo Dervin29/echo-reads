@@ -4,9 +4,8 @@ import { handleUpload, HandleUploadBody } from "@vercel/blob/client";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request): Promise<NextResponse> {
-  const body = (await request.json()) as HandleUploadBody;
-
   try {
+    const body = (await request.json()) as HandleUploadBody;
     const jsonResponse = await handleUpload({
       token: process.env.BLOB_READ_WRITE_TOKEN,
       body,
@@ -44,7 +43,7 @@ export async function POST(request: Request): Promise<NextResponse> {
   } catch (error) {
     const message =
       error instanceof Error ? error.message : "An error occurred";
-    const status = message.includes("Unauthorized") ? 401 : 500;
+    const status = message.includes("Unauthorized") ? 401 : error instanceof SyntaxError || message.includes("Unexpected token") || message.includes("JSON") || message.includes("Malformed") ? 400 : 500;
     return NextResponse.json({ message }, { status });
   }
 }
