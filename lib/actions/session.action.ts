@@ -1,20 +1,9 @@
 'use server';
 
-import VoiceSession from "@/database/models/book-session.model";
+import {EndSessionResult, StartSessionResult} from "@/types";
 import {connectToDatabase} from "@/database/mongoose";
+import VoiceSession from "@/database/models/book-session.model";
 
-type StartSessionResult = {
-    success: boolean;
-    sessionId?: string;
-    maxDurationMinutes?: number;
-    error?: string;
-    isBillingError?: boolean;
-}
-
-type EndSessionResult = {
-    success: boolean;
-    error?: string;
-}
 
 export const startVoiceSession = async (clerkId: string, bookId: string): Promise<StartSessionResult> => {
     try {
