@@ -8,20 +8,23 @@ import mongoose from "mongoose";
 import { getUserPlan } from "@/lib/subscription.server";
 import BookSegment from "@/database/models/book-segment.models";
 import { revalidatePath } from "next/cache";
+import { auth } from "@clerk/nextjs/server";
 
 
 export const getAllBooks = async (search?: string) => {
   try {
     await connectToDatabase();
 
-    let query = {};
+    const { userId } = await auth();
+    const query: Record<string, unknown> = { clerkId: userId };
 
     if (search) {
       const escapedSearch = escapeRegex(search);
       const regex = new RegExp(escapedSearch, "i");
-      query = {
-        $or: [{ title: { $regex: regex } }, { author: { $regex: regex } }],
-      };
+      query.$or = [
+        { title: { $regex: regex } },
+        { author: { $regex: regex } },
+      ];
     }
 
     const books = await Book.find(query).sort({ createdAt: -1 }).lean();
