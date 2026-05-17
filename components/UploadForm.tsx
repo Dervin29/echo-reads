@@ -131,8 +131,13 @@ const UploadForm = () => {
       });
 
       if (!book.success) {
-        toast.error("Failed to upload book. Please try again later.");
-        throw new Error("Failed to upload book. Please try again later.");
+        if (book.isBillingError) {
+          toast.error(book.error);
+          router.push("/subscriptions");
+        } else {
+          toast.error(book.error || "Failed to upload book. Please try again later.");
+        }
+        return;
       }
 
       if (book.alreadyExists) {
