@@ -5,20 +5,31 @@ import VoiceSession from "@/database/models/book-session.model";
 import {connectToDatabase} from "@/database/mongoose";
 
 
+'use server';
+
+import { auth } from "`@clerk/nextjs/server`";
+import VoiceSession from "`@/database/models/book-session.model`";
+import {connectToDatabase} from "`@/database/mongoose`";
+
 export const startVoiceSession = async (clerkId: string, bookId: string): Promise<StartSessionResult> => {
     try {
         await connectToDatabase();
 
+        const { userId } = await auth();
+        if (!userId || userId !== clerkId) {
+            return { success: false, error: "Unauthorized request." };
+        }
+
         // Limits/Plan to see whether a session is allowed.
-        const { getUserPlan } = await import("@/lib/subscription.server");
-        const { PLAN_LIMITS, getCurrentBillingPeriodStart } = await import("@/lib/subscription-constants");
+        const { getUserPlan } = await import("`@/lib/subscription.server`");
+        const { PLAN_LIMITS, getCurrentBillingPeriodStart } = await import("`@/lib/subscription-constants`");
 
         const plan = await getUserPlan();
         const limits = PLAN_LIMITS[plan];
         const billingPeriodStart = getCurrentBillingPeriodStart();
 
         const sessionCount = await VoiceSession.countDocuments({
-            clerkId,
+            clerkId: userId,
             billingPeriodStart
         });
 
