@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Echo Reads
+
+Convert your books into interactive AI conversations. Upload a PDF, and discuss your favorite reads with AI-powered voice chat.
+
+## Features
+
+- **PDF Upload** — Upload books (up to 50 MB), auto-generate covers or upload custom ones
+- **AI Voice Chat** — Real-time voice conversations with AI using ElevenLabs voices
+- **Live Transcript** — Streaming transcript of your conversation
+- **Book Search** — AI can search book content via keyword lookup during conversations
+- **Subscription Tiers** — Free, Standard, and Pro plans with book/session limits
+
+## Tech Stack
+
+- **Framework:** Next.js 16 (App Router), React 19, TypeScript 5
+- **Styling:** Tailwind CSS v4, shadcn/ui
+- **Authentication:** Clerk
+- **Database:** MongoDB / Mongoose
+- **File Storage:** Vercel Blob
+- **Voice AI:** Vapi.ai + ElevenLabs
+- **PDF Parsing:** pdfjs-dist
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+# Install dependencies
+npm install
+
+# Run the development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to see the app.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Create a `.env.local` file:
 
-## Learn More
+| Variable | Description |
+|---|---|
+| `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | Clerk publishable key |
+| `CLERK_SECRET_KEY` | Clerk secret key |
+| `MONGODB_URI` | MongoDB connection string |
+| `BLOB_READ_WRITE_TOKEN` | Vercel Blob token |
+| `NEXT_PUBLIC_ASSISTANT_ID` | Vapi assistant ID |
+| `NEXT_PUBLIC_VAPI_API_KEY` | Vapi public key |
 
-To learn more about Next.js, take a look at the following resources:
+## Deploy
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Deploy on [Vercel](https://vercel.com). The live app is at [echo-reads-ten.vercel.app](https://echo-reads-ten.vercel.app/).
