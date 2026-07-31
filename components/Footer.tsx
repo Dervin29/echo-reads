@@ -1,9 +1,7 @@
 import Link from "next/link";
+import { Show } from "@clerk/nextjs";
 
-const exploreLinks = [
-  { label: "Library", href: "/library" },
-  { label: "Pricing", href: "/subscriptions" },
-];
+const exploreLinks = [{ label: "Pricing", href: "/subscriptions" }];
 
 const gettingStartedLinks = [
   { label: "How it works", href: "/#how-it-works" },
@@ -32,6 +30,14 @@ const Footer = () => {
               Explore
             </h3>
             <div className="flex flex-col gap-2.5">
+              <Show when="signed-in">
+                <Link
+                  href="/library"
+                  className="text-sm font-medium text-[#3d485e] transition hover:text-[#212a3b]"
+                >
+                  Library
+                </Link>
+              </Show>
               {exploreLinks.map(({ label, href }) => (
                 <Link
                   key={label}

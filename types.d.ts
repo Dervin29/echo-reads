@@ -76,6 +76,7 @@ export interface TextSegment {
 }
 
 export interface BookCardProps {
+  _id: string;
   title: string;
   author: string;
   coverURL: string;

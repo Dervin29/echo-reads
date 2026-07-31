@@ -8,6 +8,7 @@ import mongoose from "mongoose";
 import { getUserPlan } from "@/lib/subscription.server";
 import BookSegment from "@/database/models/book-segment.models";
 import { auth } from "@clerk/nextjs/server";
+import { del } from "@vercel/blob";
 
 
 export const getAllBooks = async (search?: string) => {
@@ -256,6 +257,59 @@ export const searchBookSegments = async (
       success: false,
       error: (error as Error).message,
       data: [],
+    };
+  }
+};
+
+export const deleteBook = async (bookId: string) => {
+  try {
+    await connectToDatabase();
+
+    const { userId } = await auth();
+
+    if (!userId) {
+      return { success: false, error: "Unauthorized" };
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(bookId)) {
+      return { success: false, error: "Invalid book id" };
+    }
+
+    const book = await Book.findOne({
+      _id: bookId,
+      clerkId: userId,
+    }).lean();
+
+    if (!book) {
+      return { success: false, error: "Book not found" };
+    }
+
+    await BookSegment.deleteMany({ bookId: book._id });
+
+    await Book.deleteOne({ _id: book._id });
+
+    const blobKeys = [book.fileBlobKey, book.coverBlobKey].filter(
+      (key): key is string => Boolean(key),
+    );
+
+    if (blobKeys.length > 0) {
+      try {
+        await del(blobKeys);
+      } catch (e) {
+        console.error("Error deleting blobs", e);
+      }
+    }
+
+    const { revalidatePath } = await import("next/cache");
+    revalidatePath("/library");
+
+    return { success: true };
+  } catch (e) {
+    console.error("Error deleting book", e);
+
+    return {
+      success: false,
+      error: (e as Error).message,
     };
   }
 };

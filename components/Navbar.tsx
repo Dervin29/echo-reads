@@ -8,11 +8,12 @@ import { LogOut, Menu, X } from "lucide-react";
 import {
   Show,
   SignInButton,
-  SignOutButton,
+  useClerk,
   UserButton,
 } from "@clerk/nextjs";
 
 import { cn } from "@/lib/utils";
+import ConfirmDialog from "./ConfirmDialog";
 
 const signedOutNavItems = [
   { label: "How it works", href: "/#how-it-works" },
@@ -27,7 +28,9 @@ const signedInNavItems = [
 
 const Navbar = () => {
   const pathname = usePathname();
+  const { signOut } = useClerk();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSignOutOpen, setIsSignOutOpen] = useState(false);
 
   const isActive = (href: string) => {
     if (href.startsWith("/#")) return false;
@@ -37,7 +40,8 @@ const Navbar = () => {
   const closeMenu = () => setIsMenuOpen(false);
 
   return (
-    <header className="fixed z-50 w-full border-b border-[var(--border-subtle)] bg-[#f5f1e8]/95 backdrop-blur">
+    <>
+      <header className="fixed z-50 w-full border-b border-[var(--border-subtle)] bg-[#f5f1e8]/95 backdrop-blur">
       <div className="wrapper navbar-height flex items-center justify-between">
         <Link href="/" onClick={closeMenu} className="flex items-center">
           <span className="logo-text">Echo Reads</span>
@@ -86,12 +90,13 @@ const Navbar = () => {
 
           <Show when="signed-in">
             <UserButton />
-            <SignOutButton>
-              <button className="flex items-center gap-1.5 rounded-xl border border-[var(--border-medium)] px-3 py-2 text-sm font-medium text-[var(--text-primary)] transition hover:bg-white">
-                <LogOut className="size-4" />
-                <span className="hidden xl:inline">Sign out</span>
-              </button>
-            </SignOutButton>
+            <button
+              onClick={() => setIsSignOutOpen(true)}
+              className="flex items-center gap-1.5 rounded-xl border border-[var(--border-medium)] px-3 py-2 text-sm font-medium text-[var(--text-primary)] transition hover:bg-white"
+            >
+              <LogOut className="size-4" />
+              <span className="hidden xl:inline">Sign out</span>
+            </button>
           </Show>
         </div>
 
@@ -150,22 +155,35 @@ const Navbar = () => {
               <Show when="signed-in">
                 <div className="flex items-center justify-between gap-3 px-3">
                   <UserButton />
-                  <SignOutButton>
-                    <button
-                      onClick={closeMenu}
-                      className="flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-[var(--text-primary)] hover:bg-white"
-                    >
-                      <LogOut className="size-4" />
-                      Sign out
-                    </button>
-                  </SignOutButton>
+                  <button
+                    onClick={() => {
+                      closeMenu();
+                      setIsSignOutOpen(true);
+                    }}
+                    className="flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-[var(--text-primary)] hover:bg-white"
+                  >
+                    <LogOut className="size-4" />
+                    Sign out
+                  </button>
                 </div>
               </Show>
             </div>
           </div>
         </div>
       )}
-    </header>
+      </header>
+
+      <ConfirmDialog
+        open={isSignOutOpen}
+        onOpenChange={setIsSignOutOpen}
+        onConfirm={() => signOut()}
+        title="Sign out?"
+        description="You will need to sign in again to access your library and books."
+        confirmLabel="Sign out"
+        cancelLabel="Cancel"
+        destructive
+      />
+    </>
   );
 };
 

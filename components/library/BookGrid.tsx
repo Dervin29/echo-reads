@@ -50,6 +50,7 @@ const BookGrid = async ({ query }: { query: string }) => {
         {books.map((book) => (
           <BookCard
             key={book._id}
+            _id={book._id}
             title={book.title}
             author={book.author}
             slug={book.slug}
