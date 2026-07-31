@@ -44,22 +44,20 @@ const VoiceSelector = ({
                     id={voiceId}
                     className="sr-only"
                   />
+                  <div
+                    className={cn(
+                      "w-4 h-4 mt-0.5 rounded-full border flex items-center justify-center shrink-0",
+                      isSelected ? "border-[#663820]" : "border-gray-300",
+                    )}
+                  >
+                    {isSelected && (
+                      <div className="w-2 h-2 rounded-full bg-[#663820]" />
+                    )}
+                  </div>
                   <div className="flex flex-col gap-1">
-                    <div className="flex items-center gap-2">
-                      <div
-                        className={cn(
-                          "w-4 h-4 rounded-full border flex items-center justify-center",
-                          isSelected ? "border-[#663820]" : "border-gray-300",
-                        )}
-                      >
-                        {isSelected && (
-                          <div className="w-2 h-2 rounded-full bg-[#663820]" />
-                        )}
-                      </div>
-                      <span className="font-bold text-[#212a3b]">
-                        {voice.name}
-                      </span>
-                    </div>
+                    <span className="font-bold text-[#212a3b]">
+                      {voice.name}
+                    </span>
                     <p className="text-xs text-[#777] leading-relaxed">
                       {voice.description}
                     </p>
@@ -93,22 +91,20 @@ const VoiceSelector = ({
                     id={voiceId}
                     className="sr-only"
                   />
+                  <div
+                    className={cn(
+                      "w-4 h-4 mt-0.5 rounded-full border flex items-center justify-center shrink-0",
+                      isSelected ? "border-[#663820]" : "border-gray-300",
+                    )}
+                  >
+                    {isSelected && (
+                      <div className="w-2 h-2 rounded-full bg-[#663820]" />
+                    )}
+                  </div>
                   <div className="flex flex-col gap-1">
-                    <div className="flex items-center gap-2">
-                      <div
-                        className={cn(
-                          "w-4 h-4 rounded-full border flex items-center justify-center",
-                          isSelected ? "border-[#663820]" : "border-gray-300",
-                        )}
-                      >
-                        {isSelected && (
-                          <div className="w-2 h-2 rounded-full bg-[#663820]" />
-                        )}
-                      </div>
-                      <span className="font-bold text-[#212a3b]">
-                        {voice.name}
-                      </span>
-                    </div>
+                    <span className="font-bold text-[#212a3b]">
+                      {voice.name}
+                    </span>
                     <p className="text-xs text-[#777] leading-relaxed">
                       {voice.description}
                     </p>
