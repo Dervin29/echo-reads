@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Plus } from "lucide-react";
 
@@ -18,17 +17,6 @@ const LibraryHeader = () => {
             <Plus className="size-5" />
             Add New Book
           </Link>
-        </div>
-
-        <div className="library-header-illustration">
-          <Image
-            src="/assets/hero-illustration.png"
-            alt="Vintage books and a globe"
-            width={360}
-            height={360}
-            priority
-            className="h-auto w-full object-contain"
-          />
         </div>
       </div>
     </section>

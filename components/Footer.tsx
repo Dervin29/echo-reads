@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 
 const exploreLinks = [
   { label: "Library", href: "/library" },
@@ -17,14 +16,7 @@ const Footer = () => {
       <div className="wrapper py-14">
         <div className="flex flex-col gap-10 md:flex-row md:justify-between">
           <div className="max-w-sm">
-            <Link href="/" className="flex items-center gap-0.5">
-              <Image
-                src="/assets/logo.png"
-                alt="Echo Reads"
-                width={42}
-                height={26}
-                className="h-8 w-auto"
-              />
+            <Link href="/" className="flex items-center">
               <span className="font-serif text-xl font-semibold text-black">
                 Echo Reads
               </span>

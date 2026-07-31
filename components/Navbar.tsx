@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { LogOut, Menu, X } from "lucide-react";
@@ -40,15 +39,7 @@ const Navbar = () => {
   return (
     <header className="fixed z-50 w-full border-b border-[var(--border-subtle)] bg-[#f5f1e8]/95 backdrop-blur">
       <div className="wrapper navbar-height flex items-center justify-between">
-        <Link href="/" onClick={closeMenu} className="flex items-center gap-0.5">
-          <Image
-            src="/assets/logo.png"
-            alt="Echo Reads"
-            width={42}
-            height={26}
-            className="h-8 w-auto"
-          />
-
+        <Link href="/" onClick={closeMenu} className="flex items-center">
           <span className="logo-text">Echo Reads</span>
         </Link>
 

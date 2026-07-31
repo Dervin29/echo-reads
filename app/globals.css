@@ -275,11 +275,10 @@
 
   /* Button utilities */
   .btn-primary {
-    @apply inline-flex items-center justify-center px-6 py-3 bg-[var(--color-brand)] hover:bg-[var(--color-brand-hover)] text-white font-bold rounded-[10px] transition-colors;
-    font-family: var(--font-fraunces), serif;
+    @apply inline-flex items-center justify-center px-6 py-3 bg-[var(--color-brand)] hover:bg-[var(--color-brand-hover)] text-white text-base font-semibold rounded-[10px] shadow-sm transition-all;
   }
   .btn-secondary {
-    @apply inline-flex items-center justify-center px-6 py-3 bg-white hover:bg-gray-50 text-[var(--text-secondary)] font-medium rounded-[10px] transition-colors;
+    @apply inline-flex items-center justify-center px-6 py-3 bg-white hover:bg-gray-50 text-[var(--text-secondary)] text-base font-medium rounded-[10px] border border-[var(--border-medium)] shadow-sm transition-all;
   }
 
   /* Layout utilities */
@@ -489,10 +488,10 @@
     @apply relative overflow-hidden rounded-[14px] bg-[#f3e4c7] px-6 py-10 md:px-10 md:py-14 lg:px-14;
   }
   .library-header-content {
-    @apply relative z-10 flex flex-col items-start gap-8 lg:flex-row lg:items-center lg:justify-between;
+    @apply relative z-10 flex flex-col items-center text-center;
   }
   .library-header-text {
-    @apply flex max-w-xl flex-col items-start gap-4;
+    @apply mx-auto flex max-w-2xl flex-col items-center gap-4;
   }
   .library-header-badge {
     @apply inline-flex rounded-full border border-[var(--border-medium)] bg-white/60 px-4 py-1.5 text-sm font-medium text-[var(--color-brand)];
@@ -502,9 +501,6 @@
   }
   .library-header-description {
     @apply text-base leading-relaxed text-[#3d485e] md:text-lg;
-  }
-  .library-header-illustration {
-    @apply hidden flex-1 items-center justify-center lg:flex;
   }
   .library-search-wrapper {
     @apply flex items-center bg-white border border-[var(--border-subtle)] rounded-lg overflow-hidden w-full sm:w-80;
