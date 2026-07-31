@@ -24,9 +24,16 @@ const LibraryPage = async ({
       <LibraryHeader />
 
       <div className="library-filter-bar mt-10 md:mt-14">
-        <h2 className="section-title">
-          {searchQuery ? "Search Results" : "Recent Books"}
-        </h2>
+        <div>
+          <h2 className="section-title">
+            {searchQuery ? "Search Results" : "Recent Books"}
+          </h2>
+          <p className="mt-1.5 text-sm text-[#3d485e]">
+            {searchQuery
+              ? `Showing results for "${searchQuery}"`
+              : "Your latest additions"}
+          </p>
+        </div>
         <Suspense fallback={null}>
           <Search />
         </Suspense>

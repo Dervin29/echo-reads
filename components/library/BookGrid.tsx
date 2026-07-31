@@ -44,10 +44,10 @@ const BookGrid = async ({ query }: { query: string }) => {
   return (
     <div>
       <p className="library-count">
-        {books.length} {books.length === 1 ? "book" : "books"}
+        {books.length} {books.length === 1 ? "book" : "books"} in your library
       </p>
       <div className="library-books-grid">
-        {books.map((book) => (
+        {books.map((book, index) => (
           <BookCard
             key={book._id}
             _id={book._id}
@@ -55,6 +55,7 @@ const BookGrid = async ({ query }: { query: string }) => {
             author={book.author}
             slug={book.slug}
             coverURL={book.coverURL}
+            index={index}
           />
         ))}
       </div>

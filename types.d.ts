@@ -81,6 +81,7 @@ export interface BookCardProps {
   author: string;
   coverURL: string;
   slug: string;
+  index?: number;
 }
 
 export interface Messages {
