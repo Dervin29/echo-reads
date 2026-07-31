@@ -87,9 +87,9 @@ const Navbar = () => {
           <Show when="signed-in">
             <UserButton />
             <SignOutButton>
-              <button className="flex items-center gap-1.5 rounded-xl border border-[var(--border-medium)] px-3.5 py-2 text-sm font-medium text-[var(--text-primary)] transition hover:bg-white">
+              <button className="flex items-center gap-1.5 rounded-xl border border-[var(--border-medium)] px-3 py-2 text-sm font-medium text-[var(--text-primary)] transition hover:bg-white">
                 <LogOut className="size-4" />
-                Sign out
+                <span className="hidden xl:inline">Sign out</span>
               </button>
             </SignOutButton>
           </Show>
@@ -107,7 +107,7 @@ const Navbar = () => {
       </div>
 
       {isMenuOpen && (
-        <div className="border-t border-[var(--border-subtle)] bg-[#f5f1e8] lg:hidden">
+        <div className="max-h-[calc(100dvh-var(--navbar-height))] overflow-y-auto border-t border-[var(--border-subtle)] bg-[#f5f1e8] lg:hidden">
           <div className="wrapper flex flex-col gap-1 py-4">
             <Show when="signed-out">
               {signedOutNavItems.map(({ label, href }) => (
@@ -138,7 +138,10 @@ const Navbar = () => {
             <div className="mt-3 border-t border-[var(--border-subtle)] pt-4">
               <Show when="signed-out">
                 <SignInButton mode="modal" fallbackRedirectUrl="/library">
-                  <button className="w-full rounded-xl bg-[var(--color-brand)] px-4 py-2.5 text-sm font-medium text-white transition hover:bg-[var(--color-brand-hover)]">
+                  <button
+                    onClick={closeMenu}
+                    className="w-full rounded-xl bg-[var(--color-brand)] px-4 py-2.5 text-sm font-medium text-white transition hover:bg-[var(--color-brand-hover)]"
+                  >
                     Sign In
                   </button>
                 </SignInButton>
@@ -148,7 +151,10 @@ const Navbar = () => {
                 <div className="flex items-center justify-between gap-3 px-3">
                   <UserButton />
                   <SignOutButton>
-                    <button className="flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-[var(--text-primary)] hover:bg-white">
+                    <button
+                      onClick={closeMenu}
+                      className="flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-[var(--text-primary)] hover:bg-white"
+                    >
                       <LogOut className="size-4" />
                       Sign out
                     </button>

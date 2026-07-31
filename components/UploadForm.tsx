@@ -179,7 +179,7 @@ const UploadForm = () => {
 
       <div className="new-book-wrapper">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 sm:space-y-8">
             {/* 1. PDF File Upload */}
             <FileUploader
               control={form.control}
