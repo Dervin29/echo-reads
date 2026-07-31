@@ -7,7 +7,6 @@ import Book from "@/database/models/book.model";
 import mongoose from "mongoose";
 import { getUserPlan } from "@/lib/subscription.server";
 import BookSegment from "@/database/models/book-segment.models";
-import { revalidatePath } from "next/cache";
 import { auth } from "@clerk/nextjs/server";
 
 
@@ -101,7 +100,7 @@ export const createBook = async (data: CreateBook) => {
 
     if (bookCount >= limits.maxBooks) {
       const { revalidatePath } = await import("next/cache");
-      revalidatePath("/");
+      revalidatePath("/library");
 
       return {
         success: false,
@@ -118,7 +117,7 @@ export const createBook = async (data: CreateBook) => {
     });
 
     const { revalidatePath } = await import("next/cache");
-    revalidatePath("/");
+    revalidatePath("/library");
 
     return {
       success: true,

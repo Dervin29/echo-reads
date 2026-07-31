@@ -1,23 +1,23 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Serif, Mona_Sans } from "next/font/google";
+import { Figtree, Fraunces } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import "./globals.css";
 
 import { ui } from "@clerk/ui";
 
 import { Toaster } from "sonner";
 
-const ibmPlexSerif = IBM_Plex_Serif({
-  variable: "--font-ibm-plex-serif",
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
-const monaSans = Mona_Sans({
-  variable: "--font-mona-sans",
+const figtree = Figtree({
+  variable: "--font-figtree",
   subsets: ["latin"],
   display: "swap",
 });
@@ -35,13 +35,14 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider ui={ui}>
-      <html lang="en">
+      <html lang="en" className="scroll-smooth">
         <body
           suppressHydrationWarning
-          className={`${ibmPlexSerif.variable} ${monaSans.variable} relative font-sans antialiased flex flex-col gap-4 bg-[#f5f1e8]`}
+          className={`${fraunces.variable} ${figtree.variable} relative flex min-h-screen flex-col bg-[#f5f1e8] font-sans antialiased`}
         >
           <Navbar />
-          {children}
+          <div className="flex flex-1 flex-col">{children}</div>
+          <Footer />
           <Toaster position="bottom-right" />
         </body>
       </html>

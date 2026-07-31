@@ -7,8 +7,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
-  --font-serif: var(--font-ibm-plex-serif);
+  --font-sans: var(--font-figtree);
+  --font-serif: var(--font-fraunces);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -46,7 +46,7 @@
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
-  --font-heading: var(--font-sans);
+  --font-heading: var(--font-figtree);
 }
 
 :root {
@@ -201,21 +201,6 @@
   .auth-shadow {
     @apply rounded-2xl bg-[var(--accent-light)];
   }
-  .clerk-subscriptions {
-    @apply max-w-7xl px-5 mx-auto w-full min-h-screen flex flex-col items-center;
-    padding-top: calc(var(--navbar-height) + 2rem);
-    padding-bottom: 5rem;
-  }
-  .subscriptions-header {
-    @apply mb-10 md:mb-14 text-center max-w-2xl;
-  }
-  .subscriptions-title {
-    font-family: "IBM Plex Serif", serif;
-    @apply text-3xl md:text-4xl font-bold text-[var(--text-primary)] tracking-tight;
-  }
-  .subscriptions-description {
-    @apply mt-3 text-lg text-[var(--text-secondary)] leading-relaxed;
-  }
   .page-offset {
     padding-top: var(--navbar-height);
   }
@@ -230,7 +215,7 @@
   }
   .form-btn {
     @apply !w-full h-14 rounded-[10px] bg-[#663820] cursor-pointer hover:bg-[#7a4528] text-xl text-white font-bold transition-colors;
-    font-family: "IBM Plex Serif", serif;
+    font-family: var(--font-fraunces), serif;
   }
   .loading-wrapper {
     @apply fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm;
@@ -291,7 +276,7 @@
   /* Button utilities */
   .btn-primary {
     @apply inline-flex items-center justify-center px-6 py-3 bg-[var(--color-brand)] hover:bg-[var(--color-brand-hover)] text-white font-bold rounded-[10px] transition-colors;
-    font-family: "IBM Plex Serif", serif;
+    font-family: var(--font-fraunces), serif;
   }
   .btn-secondary {
     @apply inline-flex items-center justify-center px-6 py-3 bg-white hover:bg-gray-50 text-[var(--text-secondary)] font-medium rounded-[10px] transition-colors;
@@ -452,7 +437,7 @@
   }
   .vapi-badge-ai-text {
     @apply text-sm font-medium text-[#212a3b];
-    font-family: "IBM Plex Serif", serif;
+    font-family: var(--font-fraunces), serif;
   }
   .vapi-status-indicator {
     @apply flex items-center gap-2 bg-white px-3 py-2 rounded-[4px];
@@ -477,7 +462,7 @@
   }
   .vapi-status-text {
     @apply text-sm font-medium text-[#212a3b];
-    font-family: "IBM Plex Serif", serif;
+    font-family: var(--font-fraunces), serif;
   }
   .vapi-stat-box {
     @apply bg-white rounded-[10px] px-2.5 py-5 min-w-[225px] text-center;
@@ -487,11 +472,11 @@
   }
   .vapi-stat-label {
     @apply text-lg font-medium text-[#212a3b] mb-3;
-    font-family: "IBM Plex Serif", serif;
+    font-family: var(--font-fraunces), serif;
   }
   .vapi-stat-value-lg {
     @apply text-[30px] font-semibold text-black leading-9;
-    font-family: "IBM Plex Serif", serif;
+    font-family: var(--font-fraunces), serif;
   }
   .vapi-stat-value-sm {
     @apply text-sm font-semibold text-[var(--text-primary)] text-center truncate;
@@ -500,76 +485,54 @@
   /* ===========================================
      BOOKS LIBRARY COMPONENT
      =========================================== */
-  .library-hero-card {
-    @apply bg-[#f3e4c7] rounded-[14px] p-5 md:p-6 lg:py-6 lg:px-10 relative overflow-hidden flex items-center;
+  .library-header {
+    @apply relative overflow-hidden rounded-[14px] bg-[#f3e4c7] px-6 py-10 md:px-10 md:py-14 lg:px-14;
   }
-  .library-hero-content {
-    @apply flex flex-col items-center text-center lg:items-center lg:text-left lg:flex-row lg:justify-between gap-4 lg:gap-6 w-full;
+  .library-header-content {
+    @apply relative z-10 flex flex-col items-start gap-8 lg:flex-row lg:items-center lg:justify-between;
   }
-  .library-hero-text {
-    @apply flex-1 max-w-full lg:max-w-[400px] flex flex-col gap-3 lg:gap-4 items-center lg:items-start justify-center z-10;
+  .library-header-text {
+    @apply flex max-w-xl flex-col items-start gap-4;
   }
-  .library-hero-title {
-    @apply text-[26px] md:text-3xl lg:text-4xl font-semibold text-black tracking-[-0.02em] leading-[32px] md:leading-[42px] font-serif;
+  .library-header-badge {
+    @apply inline-flex rounded-full border border-[var(--border-medium)] bg-white/60 px-4 py-1.5 text-sm font-medium text-[var(--color-brand)];
   }
-  .library-hero-description {
-    @apply text-sm md:text-base text-[#3d485e] leading-5 md:leading-6;
+  .library-header-title {
+    @apply font-serif text-4xl font-bold leading-[1.15] tracking-[-0.02em] text-[#212a3b] md:text-5xl;
   }
-  .library-hero-illustration {
-    @apply flex items-center justify-center mt-2 lg:hidden;
+  .library-header-description {
+    @apply text-base leading-relaxed text-[#3d485e] md:text-lg;
   }
-  .library-hero-illustration-desktop {
-    @apply hidden lg:flex items-center justify-center flex-1 max-w-[400px];
-  }
-  .library-cta-primary {
-    @apply inline-flex items-center justify-center gap-2 bg-white text-[var(--text-primary)] px-5 py-3 rounded-[10px] font-bold text-base md:text-xl transition-all w-full lg:w-fit;
-    font-family: "IBM Plex Serif", serif;
-
-    &:hover {
-      @apply bg-gray-50;
-      box-shadow: var(--shadow-soft);
-    }
-  }
-  .library-cta-secondary {
-    @apply inline-flex items-center gap-2 bg-white text-[var(--text-primary)] px-5 py-3 rounded-[10px] font-bold text-xl transition-all;
-    font-family: "IBM Plex Serif", serif;
-
-    &:hover {
-      @apply bg-gray-50;
-      box-shadow: var(--shadow-soft);
-    }
-  }
-  .library-steps-card {
-    @apply bg-white p-4 rounded-[10px];
-    list-style: none;
-  }
-  .library-steps-card div {
-    list-style: none;
-  }
-  .library-step-item {
-    @apply flex items-start gap-3;
-    list-style: none;
-  }
-  .library-step-number {
-    @apply w-8 h-8 min-w-8 min-h-8 rounded-full bg-[#fff6e5] border border-[var(--text-primary)] text-[var(--text-primary)] flex items-center justify-center font-semibold text-sm;
-  }
-  .library-step-title {
-    @apply font-semibold text-base text-[#222c37] leading-6;
-  }
-  .library-step-description {
-    @apply font-normal text-sm text-[#222c37] leading-5;
+  .library-header-illustration {
+    @apply hidden flex-1 items-center justify-center lg:flex;
   }
   .library-search-wrapper {
     @apply flex items-center bg-white border border-[var(--border-subtle)] rounded-lg overflow-hidden w-full sm:w-80;
+    box-shadow: var(--shadow-soft-sm);
   }
   .library-search-input {
     @apply flex-1 py-2 px-4 outline-none text-[var(--text-primary)] placeholder:text-[var(--text-muted)];
   }
+  .library-count {
+    @apply mb-4 text-sm font-medium text-[#3d485e];
+  }
   .library-books-grid {
     @apply grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-3 md:gap-x-10 gap-y-7 md:gap-y-9;
   }
-  .library-empty-card {
-    @apply bg-[var(--bg-secondary)] rounded-[14px] p-12 max-w-md mx-auto;
+  .library-empty-state {
+    @apply flex flex-col items-center gap-4 rounded-[14px] border border-dashed border-[var(--border-medium)] bg-white/60 px-6 py-16 text-center;
+  }
+  .library-empty-state-icon {
+    @apply flex size-16 items-center justify-center rounded-full bg-[#f3e4c7];
+  }
+  .library-empty-state-title {
+    @apply font-serif text-2xl font-bold text-[#212a3b];
+  }
+  .library-empty-state-description {
+    @apply max-w-sm leading-relaxed text-[#3d485e];
+  }
+  .skeleton {
+    @apply animate-pulse bg-[rgba(33,42,59,0.12)];
   }
 
   /* ===========================================
@@ -676,7 +639,7 @@
     @apply absolute -left-1 top-2 bottom-2 w-3 bg-gradient-to-r from-[#8B7355] to-[#A08060] rounded-l-md z-0;
   }
   .book-card-cover-wrapper {
-    @apply relative bg-white rounded-[14px] overflow-hidden flex items-center justify-center h-[205px] md:h-[240px];
+    @apply relative bg-white rounded-[14px] overflow-hidden flex items-center justify-center h-[205px] md:h-[240px] transition-shadow duration-300 group-hover:shadow-[var(--shadow-soft-md)];
   }
   .book-card-cover {
     @apply w-auto h-[170px] md:h-[200px] object-cover rounded-lg;
@@ -687,7 +650,7 @@
   }
   .book-card-title {
     @apply font-bold text-[#212a3b] line-clamp-1 text-base md:text-xl leading-[22px] md:leading-[30px];
-    font-family: "IBM Plex Serif", serif;
+    font-family: var(--font-fraunces), serif;
   }
   .book-card-author {
     @apply text-sm md:text-base font-medium text-[#3d485e] line-clamp-1;
@@ -841,6 +804,12 @@
     rgba(102, 56, 32, 0.03) 0%,
     transparent 40%
   );
+}
+
+/* --- Card with a highlighted (popular) plan badge --- */
+.cl-pricingTableCard:has(.cl-pricingTableCardBadge) {
+  border-color: var(--color-brand) !important;
+  border-width: 2px !important;
 }
 
 /* --- Card header --- */

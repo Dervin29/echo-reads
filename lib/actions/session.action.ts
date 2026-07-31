@@ -24,7 +24,7 @@ export const startVoiceSession = async (clerkId: string, bookId: string): Promis
 
         if (sessionCount >= limits.maxSessionsPerMonth) {
             const { revalidatePath } = await import("next/cache");
-            revalidatePath("/");
+            revalidatePath("/library");
 
             return {
                 success: false,

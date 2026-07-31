@@ -33,7 +33,7 @@ const VapiControls = ({ book }: { book: IBook }) => {
       if (isBillingError) {
         router.push("/subscriptions");
       } else {
-        router.push("/");
+        router.push("/library");
       }
       clearError();
     }

@@ -1,8 +1,7 @@
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, MicOff } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { getBookBySlug } from "@/lib/actions/book.actions";
 import VapiControls from "@/components/VapiControls";
 
@@ -17,13 +16,11 @@ const BookDetailPage = async ({ params }: PageProps) => {
   const { slug } = await params;
   const result = await getBookBySlug(slug);
 
-  if (!result.success || !result.data) redirect("/");
-
-  const { title, author, coverURL, persona } = result.data;
+  if (!result.success || !result.data) redirect("/library");
 
   return (
     <main className="book-page-container">
-      <Link href="/" className="back-btn-floating">
+      <Link href="/library" className="back-btn-floating">
         <ArrowLeft className="w-5 h-5 text-[#212a3b]" />
       </Link>
 
