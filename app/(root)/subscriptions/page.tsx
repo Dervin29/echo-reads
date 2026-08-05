@@ -18,25 +18,25 @@ export default function SubscriptionsPage() {
 
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-7xl flex-col items-center px-5 pb-24 pt-[calc(var(--navbar-height)+3rem)]">
-      <header className="mb-14 max-w-2xl text-center">
-        <p className="mx-auto mb-4 inline-flex items-center gap-2 rounded-full border border-[var(--border-medium)] bg-white px-4 py-1.5 text-sm font-medium text-[var(--color-brand)]">
-          <Crown className="size-4" />
+      <header className="mb-16 max-w-2xl text-center">
+        <p className="eyebrow mx-auto mb-5">
+          <Crown className="size-3.5" strokeWidth={1.5} />
           Pricing
         </p>
 
-        <h1 className="font-serif text-3xl font-bold tracking-tight text-[#212a3b] md:text-4xl">
+        <h1 className="font-serif text-4xl font-semibold tracking-[-0.02em] text-ink md:text-5xl">
           Choose the plan that fits your reading
         </h1>
 
-        <p className="mt-3 text-lg leading-relaxed text-[#3d485e]">
+        <p className="mt-4 text-lg leading-relaxed text-ink-soft">
           Unlock more books, longer sessions, and full history with a plan that
           matches how you read.
         </p>
 
         <Show when="signed-in">
           {isLoaded && (
-            <p className="mt-5 inline-flex items-center gap-2 rounded-full bg-[#f3e4c7] px-4 py-2 text-sm font-medium text-[#212a3b]">
-              <span className="size-2 rounded-full bg-[var(--color-brand)]" />
+            <p className="mt-6 inline-flex items-center gap-2 rounded-full bg-paper-soft px-5 py-2.5 text-sm font-medium text-ink shadow-[inset_0_0_0_1px_var(--hairline)]">
+              <span className="size-2 rounded-full bg-brand" />
               You&apos;re on the {planLabels[plan]} plan
             </p>
           )}

@@ -41,16 +41,16 @@ const ConfirmDialog = ({
           <AlertDialogDescription>{description}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel className="rounded-xl border border-[var(--border-medium)] bg-white px-4 py-2 text-sm font-medium text-[var(--text-primary)] transition hover:bg-gray-50">
+          <AlertDialogCancel className="rounded-full border border-hairline-strong bg-cream px-5 py-2.5 text-sm font-medium text-ink transition-colors duration-300 hover:bg-paper-soft">
             {cancelLabel}
           </AlertDialogCancel>
           <AlertDialogAction
             onClick={onConfirm}
             className={cn(
-              "rounded-xl px-4 py-2 text-sm font-medium text-white transition",
+              "rounded-full px-5 py-2.5 text-sm font-medium text-white transition-colors duration-300",
               destructive
-                ? "bg-red-600 hover:bg-red-700"
-                : "bg-[var(--color-brand)] hover:bg-[var(--color-brand-hover)]",
+                ? "bg-[#a44534] hover:bg-[#8a3829]"
+                : "bg-brand hover:bg-brand-hover",
             )}
           >
             {confirmLabel}

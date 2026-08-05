@@ -37,7 +37,7 @@ const DeleteBookButton = ({ bookId, title }: DeleteBookButtonProps) => {
         onClick={() => setIsDialogOpen(true)}
         disabled={isPending}
         aria-label={`Delete ${title}`}
-        className="absolute right-3 top-3 z-10 flex size-9 cursor-pointer items-center justify-center rounded-full border border-[var(--border-subtle)] bg-white/90 text-red-500 opacity-100 shadow-[var(--shadow-soft-sm)] backdrop-blur transition-all hover:bg-red-500 hover:text-white focus-visible:opacity-100 disabled:cursor-not-allowed disabled:opacity-50 lg:opacity-0 lg:group-hover:opacity-100"
+        className="absolute right-3 top-3 z-10 flex size-9 cursor-pointer items-center justify-center rounded-full border border-hairline bg-cream/90 text-[#a44534] opacity-100 shadow-soft-sm backdrop-blur transition-all duration-300 hover:bg-[#a44534] hover:text-white focus-visible:opacity-100 disabled:cursor-not-allowed disabled:opacity-50 lg:opacity-0 lg:group-hover:opacity-100"
       >
         {isPending ? (
           <Loader2 className="size-4 animate-spin" />

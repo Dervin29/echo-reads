@@ -65,68 +65,75 @@ const VapiControls = ({ book }: { book: IBook }) => {
   const statusDisplay = getStatusDisplay();
 
   return (
-    <>
-      <div className="max-w-4xl mx-auto flex flex-col gap-8">
-        {/* Header Card */}
-        <div className="vapi-header-card">
-          <div className="vapi-cover-wrapper">
-            <Image
-              src={book.coverURL || "/images/book-placeholder.png"}
-              alt={book.title}
-              width={120}
-              height={180}
-              className="vapi-cover-image !w-[120px] !h-auto"
-              priority
-            />
-            <div className="vapi-mic-wrapper relative">
-              {isActive && (status === "speaking" || status === "thinking") && (
-                <div className="absolute inset-0 rounded-full bg-white animate-ping opacity-75" />
-              )}
-              <button
-                onClick={isActive ? stop : start}
-                disabled={status === "connecting"}
-                aria-label={
-                  isActive ? "Stop Voice Assissant" : "Start Voice Assissant"
-                }
-                title={
-                  isActive ? "Stop Voice Assissant" : "Start Voice Assissant"
-                }
-                className={`vapi-mic-btn shadow-md !w-[60px] !h-[60px] z-10 ${isActive ? "vapi-mic-btn-active" : "vapi-mic-btn-inactive"}`}
-              >
-                {isActive ? (
-                  <Mic className="size-7 text-white" />
-                ) : (
-                  <MicOff className="size-7 text-[#212a3b]" />
-                )}
-              </button>
-            </div>
-          </div>
+    <div className="vapi-main-container">
+      <div className="flex w-full flex-col gap-8">
+        <div className="bezel">
+          <div className="bezel-core relative overflow-hidden p-6 sm:p-8">
+            <div className="pointer-events-none absolute -right-20 -top-20 size-72 rounded-full bg-gold/10 blur-3xl" />
 
-          <div className="flex flex-col gap-4 flex-1">
-            <div>
-              <h1 className="text-2xl sm:text-3xl font-bold font-serif text-[#212a3b] mb-1">
-                {book.title}
-              </h1>
-              <p className="text-[#3d485e] font-medium">by {book.author}</p>
-            </div>
-
-            <div className="flex flex-wrap gap-3">
-              <div className="vapi-status-indicator">
-                <span className={`vapi-status-dot ${statusDisplay.color}`} />
-                <span className="vapi-status-text">{statusDisplay.label}</span>
+            <div className="relative flex flex-col gap-6 sm:flex-row sm:items-center sm:gap-8">
+              <div className="vapi-cover-wrapper">
+                <Image
+                  src={book.coverURL || "/images/book-placeholder.png"}
+                  alt={book.title}
+                  width={120}
+                  height={180}
+                  className="vapi-cover-image !h-auto !w-[110px] sm:!w-[130px]"
+                  priority
+                />
+                <div className="vapi-mic-wrapper relative">
+                  {isActive && (
+                    <span className="absolute inset-0 rounded-full bg-brand/30 animate-ring-pulse" />
+                  )}
+                  <button
+                    onClick={isActive ? stop : start}
+                    disabled={status === "connecting"}
+                    aria-label={
+                      isActive ? "Stop Voice Assistant" : "Start Voice Assistant"
+                    }
+                    title={
+                      isActive ? "Stop Voice Assistant" : "Start Voice Assistant"
+                    }
+                    className={`vapi-mic-btn z-10 !size-[58px] sm:!size-[64px] ${isActive ? "vapi-mic-btn-active" : "vapi-mic-btn-inactive"}`}
+                  >
+                    {isActive ? (
+                      <Mic className="size-7 text-brand-ink" strokeWidth={1.5} />
+                    ) : (
+                      <MicOff className="size-7 text-ink" strokeWidth={1.5} />
+                    )}
+                  </button>
+                </div>
               </div>
 
-              <div className="vapi-status-indicator">
-                <span className="vapi-status-text">
-                  Voice: {book.persona || "Daniel"}
-                </span>
-              </div>
+              <div className="flex flex-1 flex-col gap-5">
+                <div>
+                  <h1 className="mb-1 font-serif text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
+                    {book.title}
+                  </h1>
+                  <p className="font-medium text-ink-soft">
+                    by {book.author}
+                  </p>
+                </div>
 
-              <div className="vapi-status-indicator">
-                <span className="vapi-status-text">
-                  {formatDuration(duration)}/
-                  {formatDuration(maxDurationSeconds)}
-                </span>
+                <div className="flex flex-wrap gap-3">
+                  <div className="vapi-status-indicator">
+                    <span className={`vapi-status-dot ${statusDisplay.color}`} />
+                    <span className="vapi-status-text">{statusDisplay.label}</span>
+                  </div>
+
+                  <div className="vapi-status-indicator">
+                    <span className="vapi-status-text">
+                      Voice: {book.persona || "Daniel"}
+                    </span>
+                  </div>
+
+                  <div className="vapi-status-indicator">
+                    <span className="vapi-status-text">
+                      {formatDuration(duration)}/
+                      {formatDuration(maxDurationSeconds)}
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -142,7 +149,7 @@ const VapiControls = ({ book }: { book: IBook }) => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 export default VapiControls;

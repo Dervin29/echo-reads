@@ -178,8 +178,10 @@ const UploadForm = () => {
       {isSubmitting && <LoadingOverlay />}
 
       <div className="new-book-wrapper">
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 sm:space-y-8">
+        <div className="bezel">
+          <div className="bezel-core p-6 sm:p-10">
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-7 sm:space-y-9">
             {/* 1. PDF File Upload */}
             <FileUploader
               control={form.control}
@@ -269,8 +271,10 @@ const UploadForm = () => {
             <Button type="submit" className="form-btn" disabled={isSubmitting}>
               Begin Synthesis
             </Button>
-          </form>
-        </Form>
+            </form>
+            </Form>
+          </div>
+        </div>
       </div>
     </>
   );

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback, useRef } from 'react';
+import React, { useRef } from 'react';
 import { FieldValues } from 'react-hook-form';
 import { X } from 'lucide-react';
 import { FileUploadFieldProps } from '@/types';
@@ -65,7 +65,7 @@ const FileUploader = <T extends FieldValues>({
                         <FormControl>
                             <div
                                 className={cn(
-                                    'upload-dropzone border-2 border-dashed border-[#8B7355]/20',
+                                    'upload-dropzone',
                                     isUploaded &&
                                     'upload-dropzone-uploaded'
                                 )}
@@ -84,22 +84,27 @@ const FileUploader = <T extends FieldValues>({
                                 />
 
                                 {isUploaded ? (
-                                    <div className="flex flex-col items-center relative w-full px-4">
-                                        <p className="upload-dropzone-text line-clamp-1">
+                                    <div className="relative flex w-full flex-col items-center px-4">
+                                        <span className="flex size-12 items-center justify-center rounded-2xl bg-brand/10 text-brand">
+                                            <Icon className="size-6" strokeWidth={1.5} />
+                                        </span>
+                                        <p className="upload-dropzone-text mt-3 line-clamp-1">
                                             {(value as File).name}
                                         </p>
 
                                         <button
                                             type="button"
                                             onClick={onRemove}
-                                            className="upload-dropzone-remove mt-2"
+                                            className="upload-dropzone-remove"
                                         >
-                                            <X className="w-5 h-5" />
+                                            <X className="h-5 w-5" strokeWidth={1.5} />
                                         </button>
                                     </div>
                                 ) : (
                                     <>
-                                        <Icon className="upload-dropzone-icon" />
+                                        <span className="mb-3 flex size-14 items-center justify-center rounded-full bg-paper-soft text-brand shadow-[inset_0_0_0_1px_var(--hairline)] transition-all duration-500 ease-premium group-hover:scale-105">
+                                            <Icon className="upload-dropzone-icon !m-0 !size-6" />
+                                        </span>
                                         <p className="upload-dropzone-text">
                                             {placeholder}
                                         </p>

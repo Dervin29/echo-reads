@@ -38,12 +38,22 @@ export default function RootLayout({
       <html lang="en" className="scroll-smooth">
         <body
           suppressHydrationWarning
-          className={`${fraunces.variable} ${figtree.variable} relative flex min-h-screen flex-col bg-[#f5f1e8] font-sans antialiased`}
+          className={`${fraunces.variable} ${figtree.variable} relative flex min-h-screen flex-col bg-paper font-sans antialiased`}
         >
           <Navbar />
           <div className="flex flex-1 flex-col">{children}</div>
           <Footer />
-          <Toaster position="bottom-right" />
+          <Toaster
+            position="bottom-right"
+            toastOptions={{
+              style: {
+                background: "var(--ink)",
+                color: "var(--brand-ink)",
+                border: "1px solid rgba(253, 251, 245, 0.12)",
+                borderRadius: "1rem",
+              },
+            }}
+          />
         </body>
       </html>
     </ClerkProvider>

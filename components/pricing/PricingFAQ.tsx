@@ -30,24 +30,24 @@ const faqs = [
 
 const PricingFAQ = () => {
   return (
-    <section className="mt-24 w-full max-w-3xl">
+    <section className="mt-28 w-full max-w-3xl">
       <h2 className="section-title text-center">
         Frequently asked questions
       </h2>
 
-      <div className="mt-10 flex flex-col gap-3">
+      <div className="mt-12 flex flex-col gap-4">
         {faqs.map(({ question, answer }) => (
           <details
             key={question}
-            className="group rounded-[14px] bg-white p-6 shadow-[var(--shadow-soft-sm)]"
+            className="group rounded-[1.5rem] bg-cream p-6 shadow-[inset_0_0_0_1px_var(--hairline),var(--shadow-soft-sm)] transition-shadow duration-500 ease-premium open:shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--brand)_30%,transparent),var(--shadow-soft)]"
           >
-            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-base font-semibold text-[#212a3b]">
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-base font-semibold text-ink">
               {question}
-              <span className="shrink-0 text-[var(--color-brand)] transition-transform duration-200 group-open:rotate-45">
-                <Plus className="size-5" />
+              <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-paper-soft text-brand transition-transform duration-500 ease-premium group-open:rotate-45">
+                <Plus className="size-4" strokeWidth={1.5} />
               </span>
             </summary>
-            <p className="mt-3 text-sm leading-6 text-[#3d485e]">{answer}</p>
+            <p className="mt-3 text-sm leading-6 text-ink-soft">{answer}</p>
           </details>
         ))}
       </div>

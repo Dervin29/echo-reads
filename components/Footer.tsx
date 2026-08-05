@@ -10,30 +10,33 @@ const gettingStartedLinks = [
 
 const Footer = () => {
   return (
-    <footer className="border-t border-[var(--border-subtle)] bg-[#f3e4c7]">
-      <div className="wrapper py-14">
-        <div className="flex flex-col gap-10 md:flex-row md:justify-between">
-          <div className="max-w-sm">
-            <Link href="/" className="flex items-center">
-              <span className="font-serif text-xl font-semibold text-black">
+    <footer className="relative overflow-hidden border-t border-hairline bg-paper-soft">
+      <div className="wrapper relative py-16 md:py-24">
+        <div className="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr]">
+          <div>
+            <Link href="/" className="flex items-center gap-3">
+              <span className="flex size-9 items-center justify-center rounded-full bg-gradient-to-b from-brand-hover to-brand font-serif text-lg font-semibold text-brand-ink">
+                E
+              </span>
+              <span className="font-serif text-xl font-semibold tracking-tight text-ink">
                 Echo Reads
               </span>
             </Link>
-            <p className="mt-4 text-sm leading-6 text-[#3d485e]">
+            <p className="mt-5 max-w-sm text-sm leading-6 text-ink-soft">
               Convert your books into interactive AI conversations. Listen,
-              learn, and discuss your favorite reads.
+              learn, and discuss your favorite reads out loud.
             </p>
           </div>
 
           <div className="flex flex-col gap-4">
-            <h3 className="text-sm font-semibold uppercase tracking-wide text-[#212a3b]">
+            <h3 className="text-[11px] font-semibold uppercase tracking-[0.22em] text-ink">
               Explore
             </h3>
             <div className="flex flex-col gap-2.5">
               <Show when="signed-in">
                 <Link
                   href="/library"
-                  className="text-sm font-medium text-[#3d485e] transition hover:text-[#212a3b]"
+                  className="w-fit text-sm font-medium text-ink-soft transition-colors duration-300 hover:text-brand"
                 >
                   Library
                 </Link>
@@ -42,7 +45,7 @@ const Footer = () => {
                 <Link
                   key={label}
                   href={href}
-                  className="text-sm font-medium text-[#3d485e] transition hover:text-[#212a3b]"
+                  className="w-fit text-sm font-medium text-ink-soft transition-colors duration-300 hover:text-brand"
                 >
                   {label}
                 </Link>
@@ -51,7 +54,7 @@ const Footer = () => {
           </div>
 
           <div className="flex flex-col gap-4">
-            <h3 className="text-sm font-semibold uppercase tracking-wide text-[#212a3b]">
+            <h3 className="text-[11px] font-semibold uppercase tracking-[0.22em] text-ink">
               Getting started
             </h3>
             <div className="flex flex-col gap-2.5">
@@ -59,7 +62,7 @@ const Footer = () => {
                 <Link
                   key={label}
                   href={href}
-                  className="text-sm font-medium text-[#3d485e] transition hover:text-[#212a3b]"
+                  className="w-fit text-sm font-medium text-ink-soft transition-colors duration-300 hover:text-brand"
                 >
                   {label}
                 </Link>
@@ -68,9 +71,17 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-[var(--border-subtle)] pt-6 text-sm text-[#3d485e] sm:flex-row">
+        <div className="mt-14 flex flex-col items-center justify-between gap-3 border-t border-hairline pt-6 text-sm text-ink-mute sm:flex-row">
           <p>© {new Date().getFullYear()} Echo Reads. All rights reserved.</p>
+          <p className="font-serif italic">Made for readers who like to talk.</p>
         </div>
+      </div>
+
+      <div
+        aria-hidden
+        className="pointer-events-none select-none whitespace-nowrap text-center font-serif text-[18vw] font-semibold leading-none tracking-tight text-ink/[0.04]"
+      >
+        Echo Reads
       </div>
     </footer>
   );

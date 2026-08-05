@@ -3,6 +3,7 @@ import { getAllBooks } from "@/lib/actions/book.actions";
 import type { IBook } from "@/types";
 import { BookOpen, Plus } from "lucide-react";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 type BookSummary = Pick<IBook, "_id" | "title" | "author" | "slug" | "coverURL">;
 
@@ -15,7 +16,7 @@ const BookGrid = async ({ query }: { query: string }) => {
     return (
       <div className="library-empty-state">
         <div className="library-empty-state-icon">
-          <BookOpen className="size-8 text-[var(--color-brand)]" />
+          <BookOpen className="size-8 text-brand" strokeWidth={1.5} />
         </div>
         <h3 className="library-empty-state-title">
           {isSearching ? "No books found" : "Your library is empty"}
@@ -24,7 +25,7 @@ const BookGrid = async ({ query }: { query: string }) => {
           {isSearching ? (
             <>
               We couldn&apos;t find any books matching{" "}
-              <span className="font-semibold text-[#212a3b]">&quot;{query}&quot;</span>.
+              <span className="font-semibold text-ink">&quot;{query}&quot;</span>.
               Try a different title or author.
             </>
           ) : (
@@ -33,7 +34,7 @@ const BookGrid = async ({ query }: { query: string }) => {
         </p>
         {isSearching ? null : (
           <Link href="/books/new" className="btn-primary">
-            <Plus className="size-5" />
+            <Plus className="size-5" strokeWidth={1.75} />
             Add Your First Book
           </Link>
         )}
@@ -48,15 +49,16 @@ const BookGrid = async ({ query }: { query: string }) => {
       </p>
       <div className="library-books-grid">
         {books.map((book, index) => (
-          <BookCard
-            key={book._id}
-            _id={book._id}
-            title={book.title}
-            author={book.author}
-            slug={book.slug}
-            coverURL={book.coverURL}
-            index={index}
-          />
+          <div key={book._id} className={cn(index % 2 === 1 && "lg:mt-10")}>
+            <BookCard
+              _id={book._id}
+              title={book.title}
+              author={book.author}
+              slug={book.slug}
+              coverURL={book.coverURL}
+              index={index}
+            />
+          </div>
         ))}
       </div>
     </div>

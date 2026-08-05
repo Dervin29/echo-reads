@@ -20,7 +20,7 @@ const LibraryPage = async ({
   const searchQuery = typeof query === "string" ? query : "";
 
   return (
-    <main className="wrapper container bg-[#f5f1e8]">
+    <main className="wrapper container bg-paper">
       <LibraryHeader />
 
       <div className="library-filter-bar mt-10 md:mt-14">
@@ -28,7 +28,7 @@ const LibraryPage = async ({
           <h2 className="section-title">
             {searchQuery ? "Search Results" : "Recent Books"}
           </h2>
-          <p className="mt-1.5 text-sm text-[#3d485e]">
+          <p className="mt-1.5 text-sm text-ink-soft">
             {searchQuery
               ? `Showing results for "${searchQuery}"`
               : "Your latest additions"}

@@ -44,18 +44,18 @@ const rows: Row[] = [
 
 const PlanComparison = () => {
   return (
-    <section className="mt-24 w-full max-w-5xl">
+    <section className="mt-28 w-full max-w-5xl">
       <h2 className="section-title text-center">Compare plans</h2>
       <p className="subtitle mx-auto mt-3 max-w-2xl text-center">
         Every plan includes AI-powered voice chat, a live streaming transcript,
         and the ability to search inside your books.
       </p>
 
-      <div className="mt-10 overflow-x-auto rounded-[14px] bg-white shadow-[var(--shadow-soft)]">
+      <div className="mt-12 overflow-x-auto rounded-[2rem] bg-cream shadow-[inset_0_0_0_1px_var(--hairline),var(--shadow-soft)]">
         <table className="w-full min-w-[640px] text-left">
           <thead>
-            <tr className="border-b border-[var(--border-subtle)]">
-              <th className="px-6 py-5 text-sm font-semibold uppercase tracking-wide text-[#3d485e]">
+            <tr className="border-b border-hairline">
+              <th className="px-6 py-6 text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-mute">
                 Feature
               </th>
               {planOrder.map((plan) => {
@@ -64,20 +64,20 @@ const PlanComparison = () => {
                   <th
                     key={plan}
                     className={cn(
-                      "px-6 py-5 text-center",
-                      isFeatured && "bg-[#fff6e5]",
+                      "px-6 py-6 text-center",
+                      isFeatured && "bg-paper-soft",
                     )}
                   >
                     <div className="flex flex-col items-center gap-1">
                       {isFeatured && (
-                        <span className="mb-1 rounded-full bg-[var(--color-brand)] px-2.5 py-0.5 text-xs font-semibold text-white">
+                        <span className="mb-1 rounded-full bg-brand px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-brand-ink">
                           {planHints[plan]}
                         </span>
                       )}
-                      <span className="font-serif text-lg font-bold text-[#212a3b]">
+                      <span className="font-serif text-lg font-semibold text-ink">
                         {planLabels[plan]}
                       </span>
-                      <span className="text-xs text-[#3d485e]">
+                      <span className="text-xs text-ink-mute">
                         {isFeatured ? "\u00a0" : planHints[plan]}
                       </span>
                     </div>
@@ -90,9 +90,9 @@ const PlanComparison = () => {
             {rows.map((row) => (
               <tr
                 key={row.label}
-                className="border-b border-[var(--border-subtle)] last:border-0"
+                className="border-b border-hairline last:border-0"
               >
-                <td className="px-6 py-4 text-sm font-medium text-[#3d485e]">
+                <td className="px-6 py-4 text-sm font-medium text-ink-soft">
                   {row.label}
                 </td>
                 {planOrder.map((plan) => {
@@ -102,15 +102,21 @@ const PlanComparison = () => {
                     <td
                       key={plan}
                       className={cn(
-                        "px-6 py-4 text-center text-sm font-semibold text-[#212a3b]",
-                        isFeatured && "bg-[#fff6e5]",
+                        "px-6 py-4 text-center text-sm font-semibold text-ink",
+                        isFeatured && "bg-paper-soft",
                       )}
                     >
                       {typeof value === "boolean" ? (
                         value ? (
-                          <Check className="mx-auto size-5 text-[var(--success)]" />
+                          <Check
+                            className="mx-auto size-5 text-sage"
+                            strokeWidth={1.75}
+                          />
                         ) : (
-                          <Minus className="mx-auto size-5 text-[#c4b498]" />
+                          <Minus
+                            className="mx-auto size-5 text-ink-mute/50"
+                            strokeWidth={1.5}
+                          />
                         )
                       ) : (
                         value

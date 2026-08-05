@@ -5,11 +5,14 @@ import { Loader2 } from 'lucide-react';
 const LoadingOverlay = () => {
     return (
         <div className="loading-wrapper">
-            <div className="loading-shadow-wrapper bg-white shadow-soft-lg">
+            <div className="loading-shadow-wrapper">
                 <div className="loading-shadow">
-                    <Loader2 className="loading-animation w-12 h-12 text-[#663820]" />
+                    <div className="relative">
+                        <span className="absolute inset-0 rounded-full bg-brand/20 animate-ring-pulse" />
+                        <Loader2 className="loading-animation relative size-12 text-brand" />
+                    </div>
                     <h2 className="loading-title">Synthesizing Your Book</h2>
-                    <p className="text-[#777] text-center max-w-xs">
+                    <p className="max-w-xs text-center text-ink-mute">
                         Please wait while we process your PDF and prepare your interactive literary experience.
                     </p>
                 </div>

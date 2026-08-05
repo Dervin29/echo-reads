@@ -44,7 +44,7 @@ const Search = () => {
   return (
     <div className="library-search-wrapper">
       <div className="pl-4">
-        <SearchIcon size={20} className="text-[var(--text-muted)]" />
+        <SearchIcon size={18} className="text-ink-mute" strokeWidth={1.5} />
       </div>
       <Input
         type="text"
@@ -58,9 +58,9 @@ const Search = () => {
           type="button"
           onClick={clearSearch}
           aria-label="Clear search"
-          className="mr-3 flex items-center text-[var(--text-muted)] transition hover:text-[var(--text-primary)]"
+          className="mr-3 flex size-6 cursor-pointer items-center justify-center rounded-full text-ink-mute transition-colors duration-300 hover:bg-paper-soft hover:text-ink"
         >
-          <X size={16} />
+          <X size={14} strokeWidth={1.5} />
         </button>
       )}
     </div>

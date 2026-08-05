@@ -23,7 +23,7 @@ const VoiceSelector = ({
       >
         {/* Male Voices */}
         <div className="space-y-4">
-          <h4 className="text-sm font-medium text-[#777]">Male Voices</h4>
+          <h4 className="text-[11px] font-semibold uppercase tracking-[0.22em] text-ink-mute">Male Voices</h4>
           <div className="voice-selector-options">
             {voiceCategories.male.map((voiceId) => {
               const voice = voiceOptions[voiceId];
@@ -47,18 +47,18 @@ const VoiceSelector = ({
                   <div
                     className={cn(
                       "w-4 h-4 mt-0.5 rounded-full border flex items-center justify-center shrink-0",
-                      isSelected ? "border-[#663820]" : "border-gray-300",
+                      isSelected ? "border-brand" : "border-ink/25",
                     )}
                   >
                     {isSelected && (
-                      <div className="w-2 h-2 rounded-full bg-[#663820]" />
+                      <div className="w-2 h-2 rounded-full bg-brand" />
                     )}
                   </div>
                   <div className="flex flex-col gap-1">
-                    <span className="font-bold text-[#212a3b]">
+                    <span className="font-bold text-ink">
                       {voice.name}
                     </span>
-                    <p className="text-xs text-[#777] leading-relaxed">
+                    <p className="text-xs text-ink-mute leading-relaxed">
                       {voice.description}
                     </p>
                   </div>
@@ -70,7 +70,7 @@ const VoiceSelector = ({
 
         {/* Female Voices */}
         <div className="space-y-4">
-          <h4 className="text-sm font-medium text-[#777]">Female Voices</h4>
+          <h4 className="text-[11px] font-semibold uppercase tracking-[0.22em] text-ink-mute">Female Voices</h4>
           <div className="voice-selector-options">
             {voiceCategories.female.map((voiceId) => {
               const voice = voiceOptions[voiceId];
@@ -94,18 +94,18 @@ const VoiceSelector = ({
                   <div
                     className={cn(
                       "w-4 h-4 mt-0.5 rounded-full border flex items-center justify-center shrink-0",
-                      isSelected ? "border-[#663820]" : "border-gray-300",
+                      isSelected ? "border-brand" : "border-ink/25",
                     )}
                   >
                     {isSelected && (
-                      <div className="w-2 h-2 rounded-full bg-[#663820]" />
+                      <div className="w-2 h-2 rounded-full bg-brand" />
                     )}
                   </div>
                   <div className="flex flex-col gap-1">
-                    <span className="font-bold text-[#212a3b]">
+                    <span className="font-bold text-ink">
                       {voice.name}
                     </span>
-                    <p className="text-xs text-[#777] leading-relaxed">
+                    <p className="text-xs text-ink-mute leading-relaxed">
                       {voice.description}
                     </p>
                   </div>

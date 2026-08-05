@@ -21,7 +21,7 @@ const BookDetailPage = async ({ params }: PageProps) => {
   return (
     <main className="book-page-container">
       <Link href="/library" className="back-btn-floating">
-        <ArrowLeft className="w-5 h-5 text-[#212a3b]" />
+        <ArrowLeft className="h-5 w-5" strokeWidth={1.5} />
       </Link>
 
       <VapiControls book={result.data} />
