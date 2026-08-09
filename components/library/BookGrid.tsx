@@ -16,7 +16,7 @@ const BookGrid = async ({ query }: { query: string }) => {
     return (
       <div className="library-empty-state">
         <div className="library-empty-state-icon">
-          <BookOpen className="size-8 text-brand" strokeWidth={1.5} />
+          <BookOpen className="size-8" strokeWidth={1.5} />
         </div>
         <h3 className="library-empty-state-title">
           {isSearching ? "No books found" : "Your library is empty"}
@@ -33,7 +33,7 @@ const BookGrid = async ({ query }: { query: string }) => {
           )}
         </p>
         {isSearching ? null : (
-          <Link href="/books/new" className="btn-primary">
+          <Link href="/books/new" className="btn-primary group">
             <Plus className="size-5" strokeWidth={1.75} />
             Add Your First Book
           </Link>

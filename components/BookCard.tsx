@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { BookCardProps } from "@/types";
 import Image from "next/image";
+import { cn } from "@/lib/utils";
 import DeleteBookButton from "./DeleteBookButton";
 
 const BookCard = ({
@@ -14,6 +15,8 @@ const BookCard = ({
   _id,
   index = 0,
 }: BookCardProps) => {
+  const tilt = index % 2 === 0 ? "md:rotate-[-1.2deg]" : "md:rotate-[1.2deg]";
+
   return (
     <motion.div
       className="group relative"
@@ -28,19 +31,21 @@ const BookCard = ({
     >
       <Link href={`/books/${slug}`} className="block">
         <article className="book-card">
-          <figure className="book-card-3d book-card-3d-hover">
-            <div className="book-card-spine" />
-            <div className="bezel-sm">
-              <div className="bezel-core-sm relative aspect-[2/3] w-full overflow-hidden bg-paper-soft">
-                <Image
-                  src={coverURL}
-                  alt={title}
-                  width={300}
-                  height={450}
-                  loading="lazy"
-                  sizes="(min-width: 1280px) 20vw, (min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
-                  className="book-card-cover group-hover:scale-[1.05]"
-                />
+          <figure className="book-card-3d">
+            <div className={cn("book-card-3d-hover", tilt)}>
+              <div className="book-card-spine" />
+              <div className="bezel-sm">
+                <div className="bezel-core-sm relative aspect-[2/3] w-full overflow-hidden">
+                  <Image
+                    src={coverURL}
+                    alt={title}
+                    width={300}
+                    height={450}
+                    loading="lazy"
+                    sizes="(min-width: 1280px) 20vw, (min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
+                    className="book-card-cover group-hover:scale-[1.05]"
+                  />
+                </div>
               </div>
             </div>
           </figure>

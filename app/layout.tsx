@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Figtree, Fraunces } from "next/font/google";
+import { Figtree, Space_Grotesk } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 
 import Navbar from "@/components/Navbar";
@@ -10,8 +10,8 @@ import { ui } from "@clerk/ui";
 
 import { Toaster } from "sonner";
 
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
   subsets: ["latin"],
   display: "swap",
 });
@@ -38,7 +38,7 @@ export default function RootLayout({
       <html lang="en" className="scroll-smooth">
         <body
           suppressHydrationWarning
-          className={`${fraunces.variable} ${figtree.variable} relative flex min-h-screen flex-col bg-paper font-sans antialiased`}
+          className={`${spaceGrotesk.variable} ${figtree.variable} relative flex min-h-screen flex-col bg-paper font-sans text-ink antialiased`}
         >
           <Navbar />
           <div className="flex flex-1 flex-col">{children}</div>
@@ -47,9 +47,9 @@ export default function RootLayout({
             position="bottom-right"
             toastOptions={{
               style: {
-                background: "var(--ink)",
-                color: "var(--brand-ink)",
-                border: "1px solid rgba(253, 251, 245, 0.12)",
+                background: "rgba(15, 15, 19, 0.92)",
+                color: "var(--ink)",
+                border: "1px solid rgba(255, 255, 255, 0.1)",
                 borderRadius: "1rem",
               },
             }}

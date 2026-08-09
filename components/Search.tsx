@@ -58,7 +58,7 @@ const Search = () => {
           type="button"
           onClick={clearSearch}
           aria-label="Clear search"
-          className="mr-3 flex size-6 cursor-pointer items-center justify-center rounded-full text-ink-mute transition-colors duration-300 hover:bg-paper-soft hover:text-ink"
+          className="mr-3 flex size-6 cursor-pointer items-center justify-center rounded-full text-ink-mute transition-colors duration-300 hover:bg-white/10 hover:text-ink"
         >
           <X size={14} strokeWidth={1.5} />
         </button>

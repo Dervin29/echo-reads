@@ -11,14 +11,16 @@ const gettingStartedLinks = [
 const Footer = () => {
   return (
     <footer className="relative overflow-hidden border-t border-hairline bg-paper-soft">
+      <div className="pointer-events-none absolute -top-40 left-1/2 h-80 w-[720px] -translate-x-1/2 rounded-full bg-brand/6 blur-3xl" />
+
       <div className="wrapper relative py-16 md:py-24">
         <div className="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr]">
           <div>
             <Link href="/" className="flex items-center gap-3">
-              <span className="flex size-9 items-center justify-center rounded-full bg-gradient-to-b from-brand-hover to-brand font-serif text-lg font-semibold text-brand-ink">
+              <span className="flex size-9 items-center justify-center rounded-full bg-gradient-to-b from-brand-hover to-brand font-display text-lg font-bold text-brand-ink shadow-[0_6px_20px_-6px_rgba(52,211,153,0.7)]">
                 E
               </span>
-              <span className="font-serif text-xl font-semibold tracking-tight text-ink">
+              <span className="font-display text-xl font-semibold tracking-tight text-ink">
                 Echo Reads
               </span>
             </Link>
@@ -73,13 +75,15 @@ const Footer = () => {
 
         <div className="mt-14 flex flex-col items-center justify-between gap-3 border-t border-hairline pt-6 text-sm text-ink-mute sm:flex-row">
           <p>© {new Date().getFullYear()} Echo Reads. All rights reserved.</p>
-          <p className="font-serif italic">Made for readers who like to talk.</p>
+          <p className="text-gradient font-medium">
+            Made for readers who like to talk.
+          </p>
         </div>
       </div>
 
       <div
         aria-hidden
-        className="pointer-events-none select-none whitespace-nowrap text-center font-serif text-[18vw] font-semibold leading-none tracking-tight text-ink/[0.04]"
+        className="pointer-events-none select-none whitespace-nowrap text-center font-display text-[18vw] font-bold leading-none tracking-tight text-white/[0.03]"
       >
         Echo Reads
       </div>

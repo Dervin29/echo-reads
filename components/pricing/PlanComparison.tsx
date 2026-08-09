@@ -74,7 +74,7 @@ const PlanComparison = () => {
                           {planHints[plan]}
                         </span>
                       )}
-                      <span className="font-serif text-lg font-semibold text-ink">
+                      <span className="font-display text-lg font-semibold text-ink">
                         {planLabels[plan]}
                       </span>
                       <span className="text-xs text-ink-mute">

@@ -24,7 +24,7 @@ export default function SubscriptionsPage() {
           Pricing
         </p>
 
-        <h1 className="font-serif text-4xl font-semibold tracking-[-0.02em] text-ink md:text-5xl">
+        <h1 className="font-display text-4xl font-bold tracking-[-0.03em] text-ink md:text-5xl">
           Choose the plan that fits your reading
         </h1>
 
@@ -35,8 +35,8 @@ export default function SubscriptionsPage() {
 
         <Show when="signed-in">
           {isLoaded && (
-            <p className="mt-6 inline-flex items-center gap-2 rounded-full bg-paper-soft px-5 py-2.5 text-sm font-medium text-ink shadow-[inset_0_0_0_1px_var(--hairline)]">
-              <span className="size-2 rounded-full bg-brand" />
+            <p className="mt-6 inline-flex items-center gap-2 rounded-full bg-white/5 px-5 py-2.5 text-sm font-medium text-ink shadow-[inset_0_0_0_1px_var(--hairline)]">
+              <span className="size-2 rounded-full bg-brand animate-pulse" />
               You&apos;re on the {planLabels[plan]} plan
             </p>
           )}

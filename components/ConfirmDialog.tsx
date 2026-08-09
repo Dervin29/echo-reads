@@ -49,8 +49,8 @@ const ConfirmDialog = ({
             className={cn(
               "rounded-full px-5 py-2.5 text-sm font-medium text-white transition-colors duration-300",
               destructive
-                ? "bg-[#a44534] hover:bg-[#8a3829]"
-                : "bg-brand hover:bg-brand-hover",
+                ? "bg-[#f87171] hover:bg-[#fca5a5]"
+                : "bg-gradient-to-b from-brand-hover to-brand hover:from-brand hover:to-brand-hover",
             )}
           >
             {confirmLabel}

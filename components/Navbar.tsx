@@ -56,9 +56,9 @@ const Navbar = () => {
   return (
     <>
       <div className="fixed inset-x-0 top-0 z-40 flex justify-center px-4 pt-4 sm:pt-5">
-        <div className="flex w-full max-w-5xl items-center justify-between gap-4 rounded-full bg-cream/75 py-2 pl-5 pr-2 shadow-[inset_0_0_0_1px_rgba(34,27,17,0.08),0_12px_36px_-16px_rgba(34,27,17,0.28)] backdrop-blur-2xl">
+        <div className="flex w-full max-w-5xl items-center justify-between gap-4 rounded-full bg-white/[0.06] py-2 pl-5 pr-2 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.1),0_16px_48px_-16px_rgba(0,0,0,0.8)] backdrop-blur-2xl">
           <Link href="/" className="flex items-center gap-3">
-            <span className="flex size-9 items-center justify-center rounded-full bg-gradient-to-b from-brand-hover to-brand font-serif text-lg font-semibold text-brand-ink shadow-[0_6px_16px_-6px_rgba(90,58,34,0.6)]">
+            <span className="flex size-9 items-center justify-center rounded-full bg-gradient-to-b from-brand-hover to-brand font-display text-lg font-bold text-brand-ink shadow-[0_6px_20px_-6px_rgba(52,211,153,0.7)]">
               E
             </span>
             <span className="logo-text">Echo Reads</span>
@@ -71,9 +71,9 @@ const Navbar = () => {
                   key={label}
                   href={href}
                   className={cn(
-                    "relative text-sm font-medium text-ink-soft transition-colors duration-300 hover:text-brand",
+                    "relative text-sm font-medium text-ink-soft transition-colors duration-300 hover:text-ink",
                     isActive(href) &&
-                      "text-brand after:absolute after:-bottom-1.5 after:left-1/2 after:h-1 after:w-1 after:-translate-x-1/2 after:rounded-full after:bg-brand",
+                      "text-ink after:absolute after:-bottom-1.5 after:left-1/2 after:h-1 after:w-1 after:-translate-x-1/2 after:rounded-full after:bg-brand",
                   )}
                 >
                   {label}
@@ -87,9 +87,9 @@ const Navbar = () => {
                   key={label}
                   href={href}
                   className={cn(
-                    "relative text-sm font-medium text-ink-soft transition-colors duration-300 hover:text-brand",
+                    "relative text-sm font-medium text-ink-soft transition-colors duration-300 hover:text-ink",
                     isActive(href) &&
-                      "text-brand after:absolute after:-bottom-1.5 after:left-1/2 after:h-1 after:w-1 after:-translate-x-1/2 after:rounded-full after:bg-brand",
+                      "text-ink after:absolute after:-bottom-1.5 after:left-1/2 after:h-1 after:w-1 after:-translate-x-1/2 after:rounded-full after:bg-brand",
                   )}
                 >
                   {label}
@@ -115,7 +115,7 @@ const Navbar = () => {
                 <UserButton />
                 <button
                   onClick={() => setIsSignOutOpen(true)}
-                  className="flex cursor-pointer items-center gap-1.5 rounded-full bg-paper-soft px-4 py-2.5 text-sm font-medium text-ink transition-colors duration-300 hover:text-brand"
+                  className="flex cursor-pointer items-center gap-1.5 rounded-full bg-white/5 px-4 py-2.5 text-sm font-medium text-ink-soft transition-colors duration-300 hover:text-ink"
                 >
                   <LogOut className="size-4" strokeWidth={1.5} />
                   <span className="hidden xl:inline">Sign out</span>
@@ -128,7 +128,7 @@ const Navbar = () => {
               onClick={() => setIsMenuOpen((open) => !open)}
               aria-label={isMenuOpen ? "Close menu" : "Open menu"}
               aria-expanded={isMenuOpen}
-              className="flex size-10 cursor-pointer items-center justify-center rounded-full bg-paper-soft transition-colors duration-300 hover:bg-paper-deep lg:hidden"
+              className="flex size-10 cursor-pointer items-center justify-center rounded-full bg-white/5 transition-colors duration-300 hover:bg-white/10 lg:hidden"
             >
               <span className="relative flex size-5 flex-col items-center justify-center gap-[5px]">
                 <span
@@ -152,22 +152,22 @@ const Navbar = () => {
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
-            className="fixed inset-0 z-30 flex flex-col overflow-y-auto bg-paper pt-32"
+            className="fixed inset-0 z-30 flex flex-col overflow-y-auto bg-black/85 pt-28 backdrop-blur-3xl"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4, ease: EASE_PREMIUM }}
           >
-            <div className="pointer-events-none absolute -right-32 top-10 size-96 rounded-full bg-brand/10 blur-3xl" />
-            <div className="pointer-events-none absolute -left-32 bottom-10 size-96 rounded-full bg-gold/10 blur-3xl" />
+            <div className="pointer-events-none absolute -right-32 top-10 size-96 rounded-full bg-brand/15 blur-3xl animate-orb" />
+            <div className="pointer-events-none absolute -left-32 bottom-10 size-96 rounded-full bg-gold/12 blur-3xl animate-orb [animation-delay:-8s]" />
 
             <div className="wrapper flex flex-1 flex-col justify-center gap-1">
               <Show when="signed-out">
                 {signedOutNavItems.map(({ label, href }, index) => (
                   <motion.div
                     key={label}
-                    initial={{ opacity: 0, y: 48 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0, y: 48, filter: "blur(8px)" }}
+                    animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                     transition={{
                       duration: 0.8,
                       delay: 0.12 + index * 0.08,
@@ -179,10 +179,10 @@ const Navbar = () => {
                       onClick={() => setIsMenuOpen(false)}
                       className="group flex items-baseline gap-4 py-3"
                     >
-                      <span className="font-serif text-sm text-ink-mute">
+                      <span className="font-display text-sm text-ink-mute">
                         0{index + 1}
                       </span>
-                      <span className="font-serif text-4xl font-semibold tracking-tight text-ink transition-colors duration-300 group-hover:text-brand sm:text-5xl">
+                      <span className="font-display text-4xl font-semibold tracking-tight text-ink transition-colors duration-300 group-hover:text-brand sm:text-5xl">
                         {label}
                       </span>
                     </Link>
@@ -194,8 +194,8 @@ const Navbar = () => {
                 {signedInNavItems.map(({ label, href }, index) => (
                   <motion.div
                     key={label}
-                    initial={{ opacity: 0, y: 48 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0, y: 48, filter: "blur(8px)" }}
+                    animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                     transition={{
                       duration: 0.8,
                       delay: 0.12 + index * 0.08,
@@ -207,10 +207,10 @@ const Navbar = () => {
                       onClick={() => setIsMenuOpen(false)}
                       className="group flex items-baseline gap-4 py-3"
                     >
-                      <span className="font-serif text-sm text-ink-mute">
+                      <span className="font-display text-sm text-ink-mute">
                         0{index + 1}
                       </span>
-                      <span className="font-serif text-4xl font-semibold tracking-tight text-ink transition-colors duration-300 group-hover:text-brand sm:text-5xl">
+                      <span className="font-display text-4xl font-semibold tracking-tight text-ink transition-colors duration-300 group-hover:text-brand sm:text-5xl">
                         {label}
                       </span>
                     </Link>
@@ -228,7 +228,7 @@ const Navbar = () => {
                   <SignInButton mode="modal" fallbackRedirectUrl="/library">
                     <button
                       onClick={() => setIsMenuOpen(false)}
-                      className="w-full cursor-pointer rounded-full bg-gradient-to-b from-brand-hover to-brand px-6 py-4 text-base font-semibold text-brand-ink shadow-[0_12px_28px_-12px_rgba(90,58,34,0.6)] transition-transform duration-300 active:scale-[0.98]"
+                      className="w-full cursor-pointer rounded-full bg-gradient-to-b from-brand-hover to-brand px-6 py-4 text-base font-semibold text-brand-ink shadow-[0_16px_36px_-14px_rgba(52,211,153,0.6)] transition-transform duration-300 active:scale-[0.98]"
                     >
                       Get Started Free
                     </button>
@@ -236,7 +236,7 @@ const Navbar = () => {
                 </Show>
 
                 <Show when="signed-in">
-                  <div className="flex items-center justify-between rounded-full bg-cream px-5 py-3 shadow-[inset_0_0_0_1px_var(--hairline)]">
+                  <div className="flex items-center justify-between rounded-full bg-white/5 px-5 py-3 shadow-[inset_0_0_0_1px_var(--hairline)]">
                     <UserButton />
                     <button
                       onClick={() => {

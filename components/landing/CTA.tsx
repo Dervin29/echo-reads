@@ -14,53 +14,54 @@ const CTA = () => {
     <section className="relative overflow-hidden bg-paper-soft py-24 md:py-32">
       <div className="wrapper">
         <motion.div
-          className="relative overflow-hidden rounded-[2rem] bg-gradient-to-b from-brand-hover to-brand px-6 py-16 shadow-[0_40px_80px_-40px_rgba(90,58,34,0.6)] md:px-16 md:py-24"
+          className="bezel"
           initial={{ opacity: 0, y: 48 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 1, ease: EASE_PREMIUM }}
         >
-          <div className="pointer-events-none absolute -right-24 -top-24 size-80 rounded-full bg-brand-ink/10 blur-3xl" />
-          <div className="pointer-events-none absolute -bottom-24 -left-24 size-80 rounded-full bg-gold/20 blur-3xl" />
+          <div className="bezel-core relative overflow-hidden px-6 py-16 md:px-16 md:py-24">
+            <div className="pointer-events-none absolute -right-24 -top-24 size-80 rounded-full bg-brand/15 blur-3xl animate-orb" />
+            <div className="pointer-events-none absolute -bottom-24 -left-24 size-80 rounded-full bg-gold/12 blur-3xl animate-orb [animation-delay:-8s]" />
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(600px_300px_at_50%_0%,rgba(52,211,153,0.12),transparent_70%)]" />
 
-          <div className="relative mx-auto flex max-w-2xl flex-col items-center gap-6 text-center">
-            <p className="inline-flex items-center gap-2 rounded-full bg-brand-ink/10 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.24em] text-brand-ink">
-              Begin your library
-            </p>
-            <h2 className="font-serif text-4xl font-semibold leading-[1.05] tracking-[-0.02em] text-brand-ink md:text-6xl">
-              Your books are waiting
-              <br />
-              to <em className="italic">talk back.</em>
-            </h2>
-            <p className="max-w-md text-base leading-relaxed text-brand-ink/80 md:text-lg">
-              Upload a PDF and meet the companion hidden inside every page.
-            </p>
+            <div className="relative mx-auto flex max-w-2xl flex-col items-center gap-6 text-center">
+              <p className="eyebrow">
+                <span className="size-1.5 rounded-full bg-brand animate-pulse" />
+                Begin your library
+              </p>
+              <h2 className="font-display text-4xl font-bold leading-[1.02] tracking-[-0.03em] text-ink md:text-6xl">
+                Your books are waiting
+                <br />
+                to <span className="text-gradient">talk back.</span>
+              </h2>
+              <p className="max-w-md text-base leading-relaxed text-ink-soft md:text-lg">
+                Upload a PDF and meet the companion hidden inside every page.
+              </p>
 
-            <div className="mt-4 flex flex-wrap items-center justify-center gap-4">
-              {!isLoaded ? (
-                <span className="inline-flex cursor-default items-center gap-2 rounded-full bg-brand-ink px-8 py-4 text-base font-semibold text-brand opacity-70">
-                  Loading…
-                </span>
-              ) : isSignedIn ? (
-                <Link
-                  href="/library"
-                  className="group inline-flex items-center gap-3 rounded-full bg-brand-ink px-8 py-4 text-base font-semibold text-brand transition-all duration-500 ease-premium hover:-translate-y-px active:scale-[0.97]"
-                >
-                  Open Your Library
-                  <span className="flex size-8 items-center justify-center rounded-full bg-brand/10 transition-transform duration-500 ease-premium group-hover:translate-x-1">
-                    <ArrowRight className="size-4" strokeWidth={1.75} />
+              <div className="mt-4 flex flex-wrap items-center justify-center gap-4">
+                {!isLoaded ? (
+                  <span className="btn-primary pointer-events-none opacity-70">
+                    Loading…
                   </span>
-                </Link>
-              ) : (
-                <SignInButton mode="modal" fallbackRedirectUrl="/library">
-                  <button className="group inline-flex cursor-pointer items-center gap-3 rounded-full bg-brand-ink px-8 py-4 text-base font-semibold text-brand transition-all duration-500 ease-premium hover:-translate-y-px active:scale-[0.97]">
-                    Start Listening Free
-                    <span className="flex size-8 items-center justify-center rounded-full bg-brand/10 transition-transform duration-500 ease-premium group-hover:translate-x-1">
+                ) : isSignedIn ? (
+                  <Link href="/library" className="btn-primary group">
+                    Open Your Library
+                    <span className="btn-arrow">
                       <ArrowRight className="size-4" strokeWidth={1.75} />
                     </span>
-                  </button>
-                </SignInButton>
-              )}
+                  </Link>
+                ) : (
+                  <SignInButton mode="modal" fallbackRedirectUrl="/library">
+                    <button className="btn-primary group">
+                      Start Listening Free
+                      <span className="btn-arrow">
+                        <ArrowRight className="size-4" strokeWidth={1.75} />
+                      </span>
+                    </button>
+                  </SignInButton>
+                )}
+              </div>
             </div>
           </div>
         </motion.div>

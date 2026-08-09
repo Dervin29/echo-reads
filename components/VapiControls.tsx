@@ -69,7 +69,8 @@ const VapiControls = ({ book }: { book: IBook }) => {
       <div className="flex w-full flex-col gap-8">
         <div className="bezel">
           <div className="bezel-core relative overflow-hidden p-6 sm:p-8">
-            <div className="pointer-events-none absolute -right-20 -top-20 size-72 rounded-full bg-gold/10 blur-3xl" />
+            <div className="pointer-events-none absolute -right-20 -top-20 size-72 rounded-full bg-gold/10 blur-3xl animate-orb" />
+            <div className="pointer-events-none absolute -bottom-24 -left-16 size-64 rounded-full bg-brand/8 blur-3xl animate-orb [animation-delay:-8s]" />
 
             <div className="relative flex flex-col gap-6 sm:flex-row sm:items-center sm:gap-8">
               <div className="vapi-cover-wrapper">
@@ -107,7 +108,7 @@ const VapiControls = ({ book }: { book: IBook }) => {
 
               <div className="flex flex-1 flex-col gap-5">
                 <div>
-                  <h1 className="mb-1 font-serif text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
+                  <h1 className="mb-1 font-display text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
                     {book.title}
                   </h1>
                   <p className="font-medium text-ink-soft">

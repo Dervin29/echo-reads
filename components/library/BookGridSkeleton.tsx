@@ -6,7 +6,7 @@ const BookGridSkeleton = () => {
           key={index}
           className={index % 2 === 1 ? "lg:mt-10" : undefined}
         >
-          <div className="bezel-sm">
+          <div className={`bezel-sm ${index % 2 === 1 ? "md:rotate-[1.2deg]" : "md:-rotate-[1.2deg]"}`}>
             <div className="bezel-core-sm">
               <div className="skeleton aspect-[2/3] w-full rounded-[calc(1.5rem-0.375rem)]" />
             </div>
