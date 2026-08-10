@@ -2,21 +2,32 @@ import { MAX_FILE_SIZE } from "@/lib/constants";
 import { auth } from "@clerk/nextjs/server";
 import { handleUpload, HandleUploadBody } from "@vercel/blob/client";
 import { NextResponse } from "next/server";
+import { routeRateLimit } from "@/lib/rate-limit";
 
 export async function POST(request: Request): Promise<NextResponse> {
   try {
+    const { userId } = await auth();
+
+    if (!userId) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
+    const rateLimited = routeRateLimit({
+      tier: "authed",
+      request,
+      identifier: userId,
+    });
+
+    if (rateLimited) {
+      return rateLimited;
+    }
+
     const body = (await request.json()) as HandleUploadBody;
     const jsonResponse = await handleUpload({
       token: process.env.BLOB_READ_WRITE_TOKEN,
       body,
       request,
       onBeforeGenerateToken: async () => {
-        const { userId } = await auth();
-
-        if (!userId) {
-          throw new Error("Unauthorized");
-        }
-
         return {
           allowedContentTypes: [
             "application/pdf",
@@ -32,11 +43,8 @@ export async function POST(request: Request): Promise<NextResponse> {
         };
       },
 
-      onUploadCompleted: async ({ blob, tokenPayload }) => {
+      onUploadCompleted: async ({ blob }) => {
         console.log("file uploaded to blob", blob.url);
-
-        const payload = tokenPayload ? JSON.parse(tokenPayload) : null;
-        const userId = payload?.userId;
       },
     });
     return NextResponse.json(jsonResponse);

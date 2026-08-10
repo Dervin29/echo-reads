@@ -9,17 +9,44 @@ import { getUserPlan } from "@/lib/subscription.server";
 import BookSegment from "@/database/models/book-segment.models";
 import { auth } from "@clerk/nextjs/server";
 import { del } from "@vercel/blob";
+import { actionRateLimit } from "@/lib/rate-limit";
+import {
+  CheckBookExistsSchema,
+  CreateBookSchema,
+  DeleteBookSchema,
+  GetAllBooksSchema,
+  GetBookBySlugSchema,
+  SaveBookSegmentsSchema,
+  SearchBookSegmentsSchema,
+} from "@/lib/zod";
 
+const RATE_LIMITED_ERROR = "Too many requests. Please try again later.";
 
 export const getAllBooks = async (search?: string) => {
   try {
+    const parsedInput = GetAllBooksSchema.safeParse({ search });
+
+    if (!parsedInput.success) {
+      return { success: false, error: "Invalid search query" };
+    }
+
     await connectToDatabase();
 
     const { userId } = await auth();
+
+    const rateLimit = await actionRateLimit({
+      tier: "authed",
+      identifier: userId ?? undefined,
+    });
+
+    if (rateLimit.limited) {
+      return { success: false, error: RATE_LIMITED_ERROR };
+    }
+
     const query: Record<string, unknown> = { clerkId: userId };
 
-    if (search) {
-      const escapedSearch = escapeRegex(search);
+    if (parsedInput.data.search) {
+      const escapedSearch = escapeRegex(parsedInput.data.search);
       const regex = new RegExp(escapedSearch, "i");
       query.$or = [
         { title: { $regex: regex } },
@@ -44,9 +71,21 @@ export const getAllBooks = async (search?: string) => {
 
 export const checkBookExists = async (title: string) => {
   try {
+    const parsedInput = CheckBookExistsSchema.safeParse({ title });
+
+    if (!parsedInput.success) {
+      return { success: false, error: "Invalid title" };
+    }
+
     await connectToDatabase();
 
-    const slug = generateSlug(title);
+    const rateLimit = await actionRateLimit({ tier: "authed" });
+
+    if (rateLimit.limited) {
+      return { success: false, error: RATE_LIMITED_ERROR };
+    }
+
+    const slug = generateSlug(parsedInput.data.title);
 
     const existingBook = await Book.findOne({ slug }).lean();
 
@@ -71,9 +110,17 @@ export const checkBookExists = async (title: string) => {
 
 export const createBook = async (data: CreateBook) => {
   try {
+    const parsedInput = CreateBookSchema.safeParse(data);
+
+    if (!parsedInput.success) {
+      return { success: false, error: "Invalid book data" };
+    }
+
+    const validData = parsedInput.data;
+
     await connectToDatabase();
 
-    const slug = generateSlug(data.title);
+    const slug = generateSlug(validData.title);
 
     const existingBook = await Book.findOne({ slug }).lean();
 
@@ -90,8 +137,17 @@ export const createBook = async (data: CreateBook) => {
     const { auth } = await import("@clerk/nextjs/server");
     const { userId } = await auth();
 
-    if (!userId || userId !== data.clerkId) {
+    if (!userId || userId !== validData.clerkId) {
       return { success: false, error: "Unauthorized" };
+    }
+
+    const rateLimit = await actionRateLimit({
+      tier: "authed",
+      identifier: userId,
+    });
+
+    if (rateLimit.limited) {
+      return { success: false, error: RATE_LIMITED_ERROR };
     }
 
     const plan = await getUserPlan();
@@ -111,7 +167,7 @@ export const createBook = async (data: CreateBook) => {
     }
 
     const book = await Book.create({
-      ...data,
+      ...validData,
       clerkId: userId,
       slug,
       totalSegments: 0,
@@ -136,9 +192,21 @@ export const createBook = async (data: CreateBook) => {
 
 export const getBookBySlug = async (slug: string) => {
   try {
+    const parsedInput = GetBookBySlugSchema.safeParse({ slug });
+
+    if (!parsedInput.success) {
+      return { success: false, error: "Book not found" };
+    }
+
     await connectToDatabase();
 
-    const book = await Book.findOne({ slug }).lean();
+    const rateLimit = await actionRateLimit({ tier: "authed" });
+
+    if (rateLimit.limited) {
+      return { success: false, error: RATE_LIMITED_ERROR };
+    }
+
+    const book = await Book.findOne({ slug: parsedInput.data.slug }).lean();
 
     if (!book) {
       return { success: false, error: "Book not found" };
@@ -163,11 +231,30 @@ export const saveBookSegments = async (
   segments: TextSegment[],
 ) => {
   try {
+    const parsedInput = SaveBookSegmentsSchema.safeParse({
+      bookId,
+      clerkId,
+      segments,
+    });
+
+    if (!parsedInput.success) {
+      return { success: false, error: "Invalid book segments" };
+    }
+
     await connectToDatabase();
+
+    const rateLimit = await actionRateLimit({
+      tier: "authed",
+      identifier: parsedInput.data.clerkId,
+    });
+
+    if (rateLimit.limited) {
+      return { success: false, error: RATE_LIMITED_ERROR };
+    }
 
     console.log("Saving book segments...");
 
-    const segmentsToInsert = segments.map(
+    const segmentsToInsert = parsedInput.data.segments.map(
       ({ text, segmentIndex, pageNumber, wordCount }) => ({
         clerkId,
         bookId,
@@ -205,22 +292,35 @@ export const searchBookSegments = async (
   limit: number = 5,
 ) => {
   try {
+    const parsedInput = SearchBookSegmentsSchema.safeParse({
+      bookId,
+      query,
+      limit,
+    });
+
+    if (!parsedInput.success) {
+      return { success: false, error: "Invalid search parameters", data: [] };
+    }
+
     await connectToDatabase();
 
-    console.log(`Searching for: "${query}" in book ${bookId}`);
+    const { bookId: validBookId, query: validQuery } = parsedInput.data;
+    const validLimit = parsedInput.data.limit ?? 5;
 
-    const bookObjectId = new mongoose.Types.ObjectId(bookId);
+    console.log(`Searching for: "${validQuery}" in book ${validBookId}`);
+
+    const bookObjectId = new mongoose.Types.ObjectId(validBookId);
 
     // Try MongoDB text search first (requires text index)
     let segments: Record<string, unknown>[] = [];
     try {
       segments = await BookSegment.find({
         bookId: bookObjectId,
-        $text: { $search: query },
+        $text: { $search: validQuery },
       })
         .select("_id bookId content segmentIndex pageNumber wordCount")
         .sort({ score: { $meta: "textScore" } })
-        .limit(limit)
+        .limit(validLimit)
         .lean();
     } catch {
       // Text index may not exist — fall through to regex fallback
@@ -229,7 +329,7 @@ export const searchBookSegments = async (
 
     // Fallback: regex search matching ANY keyword
     if (segments.length === 0) {
-      const keywords = query.split(/\s+/).filter((k) => k.length > 2);
+      const keywords = validQuery.split(/\s+/).filter((k) => k.length > 2);
       if (keywords.length === 0) {
         return { success: true, data: serializeData(segments) };
       }
@@ -241,7 +341,7 @@ export const searchBookSegments = async (
       })
         .select("_id bookId content segmentIndex pageNumber wordCount")
         .sort({ segmentIndex: 1 })
-        .limit(limit)
+        .limit(validLimit)
         .lean();
     }
 
@@ -263,6 +363,12 @@ export const searchBookSegments = async (
 
 export const deleteBook = async (bookId: string) => {
   try {
+    const parsedInput = DeleteBookSchema.safeParse({ bookId });
+
+    if (!parsedInput.success) {
+      return { success: false, error: "Invalid book id" };
+    }
+
     await connectToDatabase();
 
     const { userId } = await auth();
@@ -271,12 +377,21 @@ export const deleteBook = async (bookId: string) => {
       return { success: false, error: "Unauthorized" };
     }
 
-    if (!mongoose.Types.ObjectId.isValid(bookId)) {
+    const rateLimit = await actionRateLimit({
+      tier: "authed",
+      identifier: userId,
+    });
+
+    if (rateLimit.limited) {
+      return { success: false, error: RATE_LIMITED_ERROR };
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(parsedInput.data.bookId)) {
       return { success: false, error: "Invalid book id" };
     }
 
     const book = await Book.findOne({
-      _id: bookId,
+      _id: parsedInput.data.bookId,
       clerkId: userId,
     }).lean();
 
