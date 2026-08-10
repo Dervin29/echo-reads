@@ -1,103 +1,157 @@
 # Echo Reads
 
-Convert your books into interactive AI conversations. Upload a PDF, then discuss your favorite reads with AI-powered voice chat.
+Turn your books into interactive AI conversations. Upload a PDF, then discuss the book through AI-powered voice chat.
 
 ## Demo
 
-Live app: [echo-reads-ten.vercel.app](https://echo-reads-ten.vercel.app)
+[Live App](https://echo-reads-ten.vercel.app)
 
 ## Features
 
-- Upload book PDFs (up to 50 MB), with a custom cover or one auto-generated from the first page
-- Talk about a book with AI voice chat, choosing from five ElevenLabs voices
-- Live streaming transcript of the conversation
-- In-conversation book search — the AI queries book content via keyword/text search
-- Library with search across your books
-- Free, Standard, and Pro plans with monthly book, session, and duration limits
+* Upload book PDFs up to 50 MB with custom or automatically generated covers
+* AI-powered voice conversations about uploaded books
+* Five ElevenLabs voice options
+* Live conversation transcripts
+* Search book content during conversations
+* Personal library with book search
+* Free, Standard, and Pro usage plans
 
 ## Tech Stack
 
+| Layer              | Technologies                                                                |
+| ------------------ | --------------------------------------------------------------------------- |
+| **Frontend**       | Next.js 16, React 19, TypeScript, Tailwind CSS v4, shadcn/ui, Framer Motion |
+| **Backend**        | Next.js Server Actions, Route Handlers, Zod                                 |
+| **Database**       | MongoDB, Mongoose                                                           |
+| **Authentication** | Clerk                                                                       |
+| **Storage**        | Vercel Blob                                                                 |
+| **Voice AI**       | Vapi, ElevenLabs                                                            |
+| **PDF Processing** | pdfjs-dist                                                                  |
+| **Deployment**     | Vercel                                                                      |
+
+## Project Structure
+
 ```text
-Frontend     Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS v4, shadcn/ui, framer-motion
-Backend      Next.js Server Actions & Route Handlers, Zod, Mongoose
-Database     MongoDB
-Auth         Clerk
-Storage      Vercel Blob
-Voice AI     Vapi (AI voice calls) + ElevenLabs
-PDF          pdfjs-dist
+echo-reads/
+├── app/
+│   ├── (root)/
+│   │   ├── books/
+│   │   │   ├── new/
+│   │   │   └── [slug]/
+│   │   ├── library/
+│   │   └── subscriptions/
+│   └── api/
+│       ├── upload/
+│       └── vapi/
+│           └── search-book/
+│
+├── components/
+│   ├── design/
+│   ├── landing/
+│   ├── library/
+│   ├── pricing/
+│   └── ui/
+│
+├── database/
+│   └── models/
+│
+├── hooks/
+│
+├── lib/
+│   └── actions/
+│
+├── public/
+├── .env.example
+├── package.json
+└── README.md
 ```
+
+### Directory Overview
+
+| Directory     | Purpose                                      |
+| ------------- | -------------------------------------------- |
+| `app/`        | Application routes, pages, and API endpoints |
+| `components/` | Reusable UI and feature-specific components  |
+| `database/`   | MongoDB connection and data models           |
+| `hooks/`      | Custom React hooks                           |
+| `lib/`        | Server actions and shared application logic  |
+| `public/`     | Static assets                                |
 
 ## Getting Started
 
-Prerequisites: Node.js, a MongoDB database, and API keys for Clerk, Vercel Blob, and Vapi.
+### Prerequisites
+
+* Node.js
+* MongoDB
+* Clerk
+* Vercel Blob
+* Vapi
+
+### Installation
 
 ```bash
 git clone https://github.com/Dervin29/echo-reads.git
 cd echo-reads
 npm install
+```
+
+### Environment Variables
+
+Create `.env.local` using `.env.example` as a reference.
+
+```env
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+CLERK_SECRET_KEY=
+MONGODB_URI=
+BLOB_READ_WRITE_TOKEN=
+NEXT_PUBLIC_ASSISTANT_ID=
+NEXT_PUBLIC_VAPI_API_KEY=
+```
+
+### Run Locally
+
+```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
-
-Create a `.env.local` (see `.env.example`):
-
-| Variable | Description |
-|---|---|
-| `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | Clerk publishable key |
-| `CLERK_SECRET_KEY` | Clerk secret key |
-| `MONGODB_URI` | MongoDB connection string |
-| `BLOB_READ_WRITE_TOKEN` | Vercel Blob token |
-| `NEXT_PUBLIC_ASSISTANT_ID` | Vapi assistant ID |
-| `NEXT_PUBLIC_VAPI_API_KEY` | Vapi public API key |
-
-Rate limit thresholds are configurable via optional `RATE_LIMIT_*` variables (defaults in `.env.example`).
-
-## Project Structure
-
-```text
-app/          # Pages (landing, library, book detail, pricing) and API routes (upload, Vapi webhook)
-components/   # UI: upload form, library grid, voice controls, pricing, landing sections
-database/     # Mongoose models and connection
-lib/          # Server actions, Zod schemas, rate limiting, subscription logic, utilities
-hooks/        # useVapi (voice call lifecycle), useSubscription
-```
+Open `http://localhost:3000`.
 
 ## How It Works
 
-1. User signs in with Clerk.
-2. Upload a PDF with title/author; the PDF is parsed into text segments and a cover image is generated from the first page.
-3. The file is stored on Vercel Blob; the book record and text segments are stored in MongoDB.
-4. Open a book and start a voice session with the chosen voice.
-5. The AI discusses the book and can search its content on demand via a tool call (MongoDB text search with regex fallback).
-6. Sessions are tracked against the plan's monthly limits; the live transcript streams during the call.
+1. Users authenticate through Clerk.
+2. A book PDF is uploaded and processed into text.
+3. The file is stored in Vercel Blob, while book data and text segments are stored in MongoDB.
+4. Users open a book and start a voice conversation.
+5. Vapi manages the voice interaction and ElevenLabs provides the selected voice.
+6. The AI can search the book's stored content when additional context is needed.
+7. Conversation sessions and usage are tracked against subscription limits.
 
 ## Security
 
-- Clerk authentication with server-side authorization (ownership checks on book queries and deletes)
-- Strict Zod validation on all server-action inputs and API routes (file type/size, titles, IDs, webhook payloads)
-- Upload safety: server-enforced content-type whitelist (PDF/JPEG/PNG/WebP) and 50 MB size limit via Vercel Blob tokens; files stored on external blob storage and never executed
-- Configurable rate limiting: strict per-IP + per-account limits with exponential backoff for auth, moderate per-IP limits for public endpoints, looser per-user limits for authenticated actions
-- Regex escaping on search input to prevent ReDoS
-- No secrets in the repo — all configuration is environment-based
+* Server-side authentication and ownership checks with Clerk
+* Zod validation for server actions and API routes
+* Server-enforced file type and size limits
+* Per-IP and per-user rate limiting
+* Regex escaping for search queries
+* Environment-based secret management
 
 ## Known Limitations
 
-- Rate-limit counters are in-memory, so they apply per serverless instance rather than globally; a shared store (e.g. Upstash Redis) is needed at scale
-- Uploaded file content is validated by client-side PDF parsing; the server enforces type and size but does not sniff file bytes
-- Uploaded files are publicly accessible via their blob URLs
-- Voice quality depends on external Vapi/ElevenLabs services
+* Rate limiting is currently in-memory and scoped to individual serverless instances
+* Server-side magic-byte validation is not implemented yet
+* Uploaded files are accessible through their Vercel Blob URLs
+* Voice functionality depends on Vapi and ElevenLabs
 
 ## Future Improvements
 
-- Server-side magic-byte validation of uploads
-- Shared (Redis-backed) rate limiting
-- In-app PDF reader
-- Text-to-speech playback of book segments
-- Mobile app
+* Server-side magic-byte validation
+* Redis-backed rate limiting
+* In-app PDF reader
+* Text-to-speech playback
+* Mobile application
 
 ## Author
 
-Alan Derwin A
+**Alan Derwin A**
 
-- GitHub: [github.com/Dervin29](https://github.com/Dervin29)
+[GitHub](https://github.com/Dervin29)
