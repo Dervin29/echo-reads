@@ -3,11 +3,31 @@
 import {EndSessionResult, StartSessionResult} from "@/types";
 import {connectToDatabase} from "@/database/mongoose";
 import VoiceSession from "@/database/models/book-session.model";
+import { actionRateLimit } from "@/lib/rate-limit";
+import { EndVoiceSessionSchema, StartVoiceSessionSchema } from "@/lib/zod";
 
+const RATE_LIMITED_ERROR = 'Too many requests. Please try again later.';
 
 export const startVoiceSession = async (clerkId: string, bookId: string): Promise<StartSessionResult> => {
     try {
+        const parsedInput = StartVoiceSessionSchema.safeParse({ clerkId, bookId });
+
+        if (!parsedInput.success) {
+            return { success: false, error: 'Invalid session request' };
+        }
+
+        const { clerkId: validClerkId, bookId: validBookId } = parsedInput.data;
+
         await connectToDatabase();
+
+        const rateLimit = await actionRateLimit({
+            tier: 'authed',
+            identifier: validClerkId,
+        });
+
+        if (rateLimit.limited) {
+            return { success: false, error: RATE_LIMITED_ERROR };
+        }
 
         // Limits/Plan to see whether a session is allowed.
         const { getUserPlan } = await import("@/lib/subscription.server");
@@ -18,7 +38,7 @@ export const startVoiceSession = async (clerkId: string, bookId: string): Promis
         const billingPeriodStart = getCurrentBillingPeriodStart();
 
         const sessionCount = await VoiceSession.countDocuments({
-            clerkId,
+            clerkId: validClerkId,
             billingPeriodStart
         });
 
@@ -34,8 +54,8 @@ export const startVoiceSession = async (clerkId: string, bookId: string): Promis
         }
 
         const session = await VoiceSession.create({
-            clerkId,
-            bookId,
+            clerkId: validClerkId,
+            bookId: validBookId,
             startedAt: new Date(),
             billingPeriodStart,
             durationSeconds: 0,
@@ -54,11 +74,23 @@ export const startVoiceSession = async (clerkId: string, bookId: string): Promis
 
 export const endVoiceSession = async (sessionId: string, durationSeconds: number): Promise<EndSessionResult> => {
     try {
+        const parsedInput = EndVoiceSessionSchema.safeParse({ sessionId, durationSeconds });
+
+        if (!parsedInput.success) {
+            return { success: false, error: 'Invalid session data' };
+        }
+
         await connectToDatabase();
 
-        const result = await VoiceSession.findByIdAndUpdate(sessionId, {
+        const rateLimit = await actionRateLimit({ tier: 'authed' });
+
+        if (rateLimit.limited) {
+            return { success: false, error: RATE_LIMITED_ERROR };
+        }
+
+        const result = await VoiceSession.findByIdAndUpdate(parsedInput.data.sessionId, {
             endedAt: new Date(),
-            durationSeconds,
+            durationSeconds: parsedInput.data.durationSeconds,
         });
 
         if(!result) return { success: false, error: 'Voice session not found.' }

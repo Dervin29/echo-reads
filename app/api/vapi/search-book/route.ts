@@ -1,25 +1,21 @@
 import { NextResponse } from 'next/server';
 
 import { searchBookSegments } from '@/lib/actions/book.actions';
+import { VapiSearchArgsSchema, VapiWebhookSchema } from '@/lib/zod';
+import { routeRateLimit } from '@/lib/rate-limit';
 
 // Helper function to process book search logic
 async function processBookSearch(bookId: unknown, query: unknown) {
-    // Validate inputs before conversion to prevent null/undefined becoming "null"/"undefined" strings
-    if (bookId == null || query == null || query === '') {
-        return { result: 'Missing bookId or query' };
+    const parsed = VapiSearchArgsSchema.safeParse({ bookId, query });
+
+    if (!parsed.success) {
+        return { result: 'Missing or invalid bookId or query' };
     }
 
-    // Convert bookId to string
-    const bookIdStr = String(bookId);
-    const queryStr = String(query).trim();
-
-    // Additional validation after conversion
-    if (!bookIdStr || bookIdStr === 'null' || bookIdStr === 'undefined' || !queryStr) {
-        return { result: 'Missing bookId or query' };
-    }
+    const { bookId: validBookId, query: validQuery } = parsed.data;
 
     // Execute search
-    const searchResult = await searchBookSegments(bookIdStr, queryStr, 3);
+    const searchResult = await searchBookSegments(validBookId, validQuery, 3);
 
     // Return results
     if (!searchResult.success || !searchResult.data?.length) {
@@ -33,7 +29,10 @@ async function processBookSearch(bookId: unknown, query: unknown) {
     return { result: combinedText };
 }
 
-export async function GET() {
+export async function GET(request: Request) {
+    const rateLimited = routeRateLimit({ tier: 'public', request });
+    if (rateLimited) return rateLimited;
+
     return NextResponse.json({ status: 'ok' });
 }
 
@@ -48,13 +47,23 @@ function parseArgs(args: unknown): Record<string, unknown> {
 
 export async function POST(request: Request) {
     try {
-        const body = await request.json();
+        const rateLimited = routeRateLimit({ tier: 'public', request });
+        if (rateLimited) return rateLimited;
 
-        console.log('Vapi search-book request:', JSON.stringify(body, null, 2));
+        const body = VapiWebhookSchema.safeParse(await request.json());
+
+        if (!body.success) {
+            return NextResponse.json(
+                { results: [{ result: 'Malformed request payload' }] },
+                { status: 400 },
+            );
+        }
+
+        const { message } = body.data;
 
         // Support multiple Vapi formats
-        const functionCall = body?.message?.functionCall;
-        const toolCallList = body?.message?.toolCallList || body?.message?.toolCalls;
+        const functionCall = message?.functionCall;
+        const toolCallList = message?.toolCallList || message?.toolCalls;
 
         // Handle single functionCall format
         if (functionCall) {
