@@ -9,37 +9,32 @@ const EASE_PREMIUM: [number, number, number, number] = [0.32, 0.72, 0, 1];
 const LibraryHeader = () => {
   return (
     <motion.section
-      className="bezel"
-      initial={{ opacity: 0, y: -16 }}
+      className="rounded-2xl border border-hairline bg-paper-deep/40"
+      initial={{ opacity: 0, y: -8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, ease: EASE_PREMIUM }}
+      transition={{ duration: 0.6, ease: EASE_PREMIUM }}
     >
-      <div className="bezel-core relative overflow-hidden px-6 py-14 sm:px-10 md:px-14 md:py-20">
-        <div className="pointer-events-none absolute -right-28 -top-28 size-96 rounded-full bg-gold/12 blur-3xl animate-orb" />
-        <div className="pointer-events-none absolute -bottom-32 -left-20 size-96 rounded-full bg-brand/10 blur-3xl animate-orb [animation-delay:-7s]" />
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(700px_320px_at_50%_-10%,rgba(52,211,153,0.1),transparent_70%)]" />
-
-        <div className="relative flex flex-col items-center text-center">
-          <div className="mx-auto flex max-w-2xl flex-col items-center gap-5">
+      <div className="relative overflow-hidden px-6 py-12 sm:px-10 md:px-12 md:py-14">
+        <div className="relative flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <div className="max-w-2xl">
             <p className="eyebrow">
               <Sparkles className="size-3.5" strokeWidth={1.5} />
-              Your personal bookshelf
+              Library
             </p>
-            <h1 className="font-display text-4xl font-bold leading-[1.02] tracking-[-0.03em] text-ink sm:text-5xl md:text-6xl">
-              Your <span className="text-gradient">Library</span>
+            <h1 className="mt-5 font-display text-4xl font-semibold leading-[1.05] tracking-[-0.04em] text-ink sm:text-5xl">
+              Your books
             </h1>
-            <p className="max-w-xl text-base leading-relaxed text-ink-soft md:text-lg">
-              Upload a PDF and chat with your favorite reads through natural,
-              AI-powered voice. Ask questions, get summaries, and dive deeper
-              into any book — anytime.
+            <p className="mt-4 max-w-xl text-base leading-relaxed text-ink-soft">
+              Upload PDFs and open a voice session for any title. Search below to
+              find what you need.
             </p>
-            <Link href="/books/new" className="btn-primary group mt-2">
-              Add New Book
-              <span className="btn-arrow">
-                <ArrowRight className="size-4" strokeWidth={1.75} />
-              </span>
-            </Link>
           </div>
+          <Link href="/books/new" className="btn-primary group w-fit shrink-0">
+            Add new book
+            <span className="btn-arrow">
+              <ArrowRight className="size-4" strokeWidth={1.75} />
+            </span>
+          </Link>
         </div>
       </div>
     </motion.section>

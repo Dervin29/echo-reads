@@ -14,54 +14,45 @@ const CTA = () => {
     <section className="relative overflow-hidden bg-paper-soft py-24 md:py-32">
       <div className="wrapper">
         <motion.div
-          className="bezel"
-          initial={{ opacity: 0, y: 48 }}
+          className="border-t border-hairline pt-14 md:pt-20"
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 1, ease: EASE_PREMIUM }}
+          transition={{ duration: 0.8, ease: EASE_PREMIUM }}
         >
-          <div className="bezel-core relative overflow-hidden px-6 py-16 md:px-16 md:py-24">
-            <div className="pointer-events-none absolute -right-24 -top-24 size-80 rounded-full bg-brand/15 blur-3xl animate-orb" />
-            <div className="pointer-events-none absolute -bottom-24 -left-24 size-80 rounded-full bg-gold/12 blur-3xl animate-orb [animation-delay:-8s]" />
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(600px_300px_at_50%_0%,rgba(52,211,153,0.12),transparent_70%)]" />
+          <div className="relative mx-auto flex max-w-2xl flex-col items-center gap-6 text-center">
+            <p className="eyebrow">Get started</p>
+            <h2 className="font-display text-4xl font-semibold leading-[1.02] tracking-[-0.04em] text-ink md:text-5xl">
+              Put a voice to
+              <br />
+              your next read.
+            </h2>
+            <p className="max-w-md text-base leading-relaxed text-ink-soft md:text-lg">
+              Upload a PDF and start a conversation in minutes.
+            </p>
 
-            <div className="relative mx-auto flex max-w-2xl flex-col items-center gap-6 text-center">
-              <p className="eyebrow">
-                <span className="size-1.5 rounded-full bg-brand animate-pulse" />
-                Begin your library
-              </p>
-              <h2 className="font-display text-4xl font-bold leading-[1.02] tracking-[-0.03em] text-ink md:text-6xl">
-                Your books are waiting
-                <br />
-                to <span className="text-gradient">talk back.</span>
-              </h2>
-              <p className="max-w-md text-base leading-relaxed text-ink-soft md:text-lg">
-                Upload a PDF and meet the companion hidden inside every page.
-              </p>
-
-              <div className="mt-4 flex flex-wrap items-center justify-center gap-4">
-                {!isLoaded ? (
-                  <span className="btn-primary pointer-events-none opacity-70">
-                    Loading…
+            <div className="mt-2 flex flex-wrap items-center justify-center gap-4">
+              {!isLoaded ? (
+                <span className="btn-primary pointer-events-none opacity-70">
+                  Loading…
+                </span>
+              ) : isSignedIn ? (
+                <Link href="/library" className="btn-primary group">
+                  Open your library
+                  <span className="btn-arrow">
+                    <ArrowRight className="size-4" strokeWidth={1.75} />
                   </span>
-                ) : isSignedIn ? (
-                  <Link href="/library" className="btn-primary group">
-                    Open Your Library
+                </Link>
+              ) : (
+                <SignInButton mode="modal" fallbackRedirectUrl="/library">
+                  <button className="btn-primary group">
+                    Start listening free
                     <span className="btn-arrow">
                       <ArrowRight className="size-4" strokeWidth={1.75} />
                     </span>
-                  </Link>
-                ) : (
-                  <SignInButton mode="modal" fallbackRedirectUrl="/library">
-                    <button className="btn-primary group">
-                      Start Listening Free
-                      <span className="btn-arrow">
-                        <ArrowRight className="size-4" strokeWidth={1.75} />
-                      </span>
-                    </button>
-                  </SignInButton>
-                )}
-              </div>
+                  </button>
+                </SignInButton>
+              )}
             </div>
           </div>
         </motion.div>

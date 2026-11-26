@@ -17,8 +17,8 @@ const Footer = () => {
         <div className="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr]">
           <div>
             <Link href="/" className="flex items-center gap-3">
-              <span className="flex size-9 items-center justify-center rounded-full bg-gradient-to-b from-brand-hover to-brand font-display text-lg font-bold text-brand-ink shadow-[0_6px_20px_-6px_rgba(52,211,153,0.7)]">
-                E
+              <span className="flex size-8 items-center justify-center rounded-lg border border-hairline bg-white/[0.04] font-display text-sm font-semibold tracking-tight text-ink">
+                ER
               </span>
               <span className="font-display text-xl font-semibold tracking-tight text-ink">
                 Echo Reads
@@ -83,7 +83,7 @@ const Footer = () => {
 
       <div
         aria-hidden
-        className="pointer-events-none select-none whitespace-nowrap text-center font-display text-[18vw] font-bold leading-none tracking-tight text-white/[0.03]"
+        className="pointer-events-none select-none whitespace-nowrap text-center font-display text-[14vw] font-semibold leading-none tracking-[-0.04em] text-white/[0.025]"
       >
         Echo Reads
       </div>
