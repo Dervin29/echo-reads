@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, BookOpen, Search, Sparkles } from "lucide-react";
+import { ArrowRight, Search } from "lucide-react";
 import { SignInButton, useUser } from "@clerk/nextjs";
 
 const EASE_PREMIUM: [number, number, number, number] = [0.32, 0.72, 0, 1];
@@ -17,16 +17,12 @@ const Hero = () => {
 
   return (
     <section className="relative overflow-hidden bg-paper">
-      {/* Tech grid */}
+      {/* Subtle grid */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 [background-image:linear-gradient(rgba(255,255,255,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.035)_1px,transparent_1px)] [background-size:72px_72px] [mask-image:radial-gradient(ellipse_at_center,black_15%,transparent_72%)]"
+        className="pointer-events-none absolute inset-0 [background-image:linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] [background-size:72px_72px] [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_70%)]"
       />
-
-      {/* Radial mesh orbs */}
-      <div className="pointer-events-none absolute -left-40 top-10 size-[520px] rounded-full bg-brand/12 blur-3xl animate-orb" />
-      <div className="pointer-events-none absolute -right-40 top-40 size-[560px] rounded-full bg-gold/10 blur-3xl animate-orb [animation-delay:-7s]" />
-      <div className="pointer-events-none absolute left-1/2 top-[-140px] size-[480px] -translate-x-1/2 rounded-full bg-sage/8 blur-3xl animate-breathe" />
+      <div className="pointer-events-none absolute right-[-120px] top-[8%] size-[420px] rounded-full bg-brand/[0.08] blur-3xl" />
 
       <div className="wrapper relative grid items-center gap-16 py-24 md:py-32 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12 lg:py-40">
         <motion.div
@@ -34,24 +30,17 @@ const Hero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: EASE_PREMIUM }}
         >
-          <p className="eyebrow">
-            <span className="relative flex size-1.5">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand opacity-60" />
-              <span className="relative inline-flex size-1.5 rounded-full bg-brand" />
-            </span>
-            Turn reading into conversation
-          </p>
+          <p className="eyebrow">Voice chat for your PDFs</p>
 
-          <h1 className="mt-7 font-display text-5xl font-bold leading-[1.02] tracking-[-0.03em] text-ink sm:text-6xl lg:text-[72px]">
-            Books that listen.
+          <h1 className="mt-6 font-display text-5xl font-semibold leading-[1.02] tracking-[-0.04em] text-ink sm:text-6xl lg:text-[68px]">
+            Talk to the books
             <br />
-            <span className="text-gradient">Ideas that talk back.</span>
+            on your shelf.
           </h1>
 
-          <p className="mt-7 max-w-xl text-lg leading-relaxed text-ink-soft md:text-xl">
-            Upload a PDF and chat with your favorite reads through natural,
-            AI-powered voice. Ask questions, pull exact passages, and explore
-            any book — out loud.
+          <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-soft md:text-xl">
+            Upload a PDF, then ask questions out loud. Echo Reads pulls from the
+            text and keeps a live transcript as you go.
           </p>
 
           <div className="mt-10 flex flex-wrap items-center gap-4">
@@ -88,71 +77,66 @@ const Hero = () => {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 56 }}
+          initial={{ opacity: 0, y: 32 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.1, delay: 0.18, ease: EASE_PREMIUM }}
+          transition={{ duration: 0.9, delay: 0.15, ease: EASE_PREMIUM }}
           className="relative mx-auto w-full max-w-md lg:max-w-none"
         >
           <div className="bezel">
-            <div className="bezel-core p-6 sm:p-8">
-              <div className="flex items-center justify-between gap-4">
-                <div className="flex items-center gap-3">
-                  <div className="relative">
-                    <span className="absolute inset-0 size-10 rounded-full bg-brand/25 animate-ring-pulse" />
-                    <span className="relative flex size-10 items-center justify-center rounded-full bg-gradient-to-b from-brand-hover to-brand shadow-[0_8px_24px_-8px_rgba(52,211,153,0.7)]">
-                      <BookOpen className="size-4 text-brand-ink" strokeWidth={1.5} />
-                    </span>
-                  </div>
-                  <div>
-                    <p className="text-sm font-semibold text-ink">
-                      Discussing <em className="italic text-brand">The Great Gatsby</em>
-                    </p>
-                    <p className="flex items-center gap-1.5 text-xs text-ink-mute">
-                      <span className="size-1.5 rounded-full bg-sage animate-pulse" />
-                      Listening
-                    </p>
-                  </div>
+            <div className="bezel-core p-5 sm:p-6">
+              <div className="flex items-start justify-between gap-4 border-b border-hairline pb-4">
+                <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-ink-mute">
+                    Session
+                  </p>
+                  <p className="mt-2 font-display text-lg font-semibold tracking-tight text-ink">
+                    The Great Gatsby
+                  </p>
+                  <p className="mt-1 text-xs text-ink-soft">Chapter context · live transcript on</p>
                 </div>
-
-                <div className="flex h-9 items-end gap-[3px] rounded-full bg-white/5 px-3 py-2 shadow-[inset_0_0_0_1px_var(--hairline)]">
+                <div className="flex h-10 items-end gap-[2px] rounded-xl bg-white/5 px-3 py-2 shadow-[inset_0_0_0_1px_var(--hairline)]">
                   {waveHeights.map((height, index) => (
                     <span
                       key={index}
                       className="wave-bar"
-                      style={{ height, animationDelay: `${index * 0.07}s` }}
+                      style={{ height: Math.max(8, Math.round(height * 0.55)), animationDelay: `${index * 0.07}s` }}
                     />
                   ))}
                 </div>
               </div>
 
-              <div className="mt-7 flex flex-col gap-3">
-                <div className="self-end max-w-[82%] rounded-2xl rounded-br-md bg-gradient-to-b from-brand-hover to-brand px-5 py-3.5 text-sm font-medium leading-6 text-brand-ink shadow-[0_14px_32px_-14px_rgba(52,211,153,0.6)]">
-                  Explain the green light in the novel.
-                </div>
-                <div className="self-start max-w-[85%] rounded-2xl rounded-bl-md bg-white/5 px-5 py-3.5 text-sm leading-6 text-ink shadow-[inset_0_0_0_1px_var(--hairline)]">
-                  <span className="mb-1 flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-brand">
-                    <span className="size-1.5 rounded-full bg-brand" /> Echo
+              <div className="mt-5 space-y-4">
+                <div className="flex gap-3">
+                  <span className="mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-full bg-white/5 text-[10px] font-semibold text-ink-mute shadow-[inset_0_0_0_1px_var(--hairline)]">
+                    You
                   </span>
-                  It is Gatsby&apos;s longing for a future he can never quite
-                  reach — hope held at arm&apos;s length.
+                  <p className="text-sm leading-6 text-ink">
+                    What does the green light mean at the end of the dock?
+                  </p>
                 </div>
+                <div className="flex gap-3">
+                  <span className="mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-full bg-brand/10 text-[10px] font-semibold text-brand shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--brand)_30%,transparent)]">
+                    AI
+                  </span>
+                  <p className="text-sm leading-6 text-ink-soft">
+                    It points to Gatsby&apos;s hope for Daisy and the future he imagines—always close in view, never quite within reach.
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-6 flex items-center justify-between rounded-xl bg-white/[0.03] px-4 py-3 shadow-[inset_0_0_0_1px_var(--hairline)]">
+                <p className="text-xs text-ink-mute">Tap the mic in the app to continue</p>
+                <span className="inline-flex items-center gap-1.5 text-xs font-medium text-sage">
+                  <span className="size-1.5 rounded-full bg-sage animate-pulse" />
+                  Listening
+                </span>
               </div>
             </div>
           </div>
 
-          <div className="absolute -bottom-8 -left-6 hidden animate-floaty items-center gap-3 rounded-full bg-white/[0.06] px-5 py-3 shadow-[inset_0_0_0_1px_var(--hairline),0_20px_48px_-20px_rgba(0,0,0,0.9)] backdrop-blur-xl sm:flex">
-            <span className="flex size-8 items-center justify-center rounded-full bg-brand/10 text-brand">
-              <Search className="size-4" strokeWidth={1.5} />
-            </span>
-            <div>
-              <p className="text-xs font-semibold text-ink">Any book, any passage</p>
-              <p className="text-[11px] text-ink-mute">Searchable in real time</p>
-            </div>
-          </div>
-
-          <div className="absolute -right-4 -top-6 hidden animate-floaty items-center gap-2 rounded-full bg-white/[0.06] px-4 py-2.5 shadow-[inset_0_0_0_1px_var(--hairline),0_20px_48px_-20px_rgba(0,0,0,0.9)] backdrop-blur-xl [animation-delay:-3s] sm:flex">
-            <Sparkles className="size-4 text-brand" strokeWidth={1.5} />
-            <span className="text-xs font-semibold text-ink">Live transcript</span>
+          <div className="absolute -bottom-6 -left-4 hidden items-center gap-2.5 rounded-xl border border-hairline bg-paper-deep/90 px-4 py-3 shadow-[0_20px_48px_-24px_rgba(0,0,0,0.9)] backdrop-blur-md sm:flex">
+            <Search className="size-4 text-ink-soft" strokeWidth={1.5} />
+            <span className="text-xs text-ink-soft">Answers stay grounded in your PDF</span>
           </div>
         </motion.div>
       </div>

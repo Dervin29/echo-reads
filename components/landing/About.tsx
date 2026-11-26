@@ -8,107 +8,77 @@ const EASE_PREMIUM: [number, number, number, number] = [0.32, 0.72, 0, 1];
 const features = [
   {
     icon: Mic,
-    title: "AI Voice Chat",
+    title: "Voice conversations",
     description:
-      "Real-time voice conversations with AI using natural, expressive voices.",
-    tint: "text-brand",
-    chip: "bg-brand/10",
-    tilt: "md:rotate-[0.5deg]",
+      "Talk through chapters in real time with natural AI voices.",
   },
   {
     icon: ScrollText,
-    title: "Live Transcript",
+    title: "Live transcript",
     description:
-      "A streaming transcript keeps every conversation searchable and easy to follow.",
-    tint: "text-gold",
-    chip: "bg-gold/10",
-    tilt: "md:rotate-[-1deg]",
+      "Follow along as text streams in, so you can review what was said.",
   },
   {
     icon: Search,
-    title: "Book Search",
+    title: "Grounded in your book",
     description:
-      "The AI can search your book's content and quote exact passages on demand.",
-    tint: "text-sage",
-    chip: "bg-sage/10",
-    tilt: "md:rotate-[1deg]",
+      "Answers draw from the PDF you uploaded, with room to ask for specific passages.",
   },
   {
     icon: Crown,
-    title: "Flexible Plans",
+    title: "Plans that scale",
     description:
-      "Start free and upgrade for more books, longer sessions, and full history.",
-    tint: "text-brand",
-    chip: "bg-brand/10",
-    tilt: "md:rotate-[-0.5deg]",
+      "Start free, then upgrade when you need more books and longer sessions.",
   },
 ];
 
 const About = () => {
   return (
-    <section id="about" className="relative scroll-mt-28 overflow-hidden bg-paper py-24 md:py-36">
-      <div className="pointer-events-none absolute left-1/2 top-0 h-72 w-[720px] -translate-x-1/2 rounded-full bg-gold/6 blur-3xl" />
-
-      <div className="wrapper relative grid items-start gap-16 lg:grid-cols-2 lg:gap-20">
+    <section id="about" className="relative scroll-mt-28 border-t border-hairline bg-paper py-20 md:py-28">
+      <div className="wrapper relative grid items-start gap-14 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16">
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.9, ease: EASE_PREMIUM }}
+          transition={{ duration: 0.7, ease: EASE_PREMIUM }}
           className="lg:sticky lg:top-28"
         >
           <p className="eyebrow">Why Echo Reads</p>
           <h2 className="section-title mt-5 text-3xl md:text-[40px]">
-            More than a chatbot.
+            Built for reading
             <br />
-            A <span className="text-gradient">reading companion.</span>
+            out loud.
           </h2>
-          <p className="mt-7 text-lg leading-relaxed text-ink-soft">
-            Echo Reads turns your books into living conversation partners. It
-            remembers what you have read, pulls the right passages when asked,
-            and speaks back to you in a voice you choose.
+          <p className="mt-6 text-lg leading-relaxed text-ink-soft">
+            Upload a PDF, pick a voice, and talk through the text. Echo Reads is
+            designed for questions, summaries, and revisiting passages without
+            scrolling through the whole file.
           </p>
-          <p className="mt-4 text-lg leading-relaxed text-ink-soft">
-            Whether you want to review a chapter before a meeting, quiz yourself
-            on a classic, or simply talk through an idea, your library is always
-            ready to listen.
-          </p>
-
-          <blockquote className="mt-10 rounded-2xl bg-white/3 p-6 shadow-[inset_0_0_0_1px_var(--hairline)]">
-            <p className="font-display text-xl leading-relaxed text-ink">
-              &ldquo;The best way to understand a book is to argue with it —
-              out loud.&rdquo;
-            </p>
-          </blockquote>
         </motion.div>
 
-        <div className="grid gap-6 sm:grid-cols-2 sm:gap-8">
-          {features.map(({ icon: Icon, title, description, tint, chip, tilt }, index) => (
+        <div className="grid gap-px overflow-hidden rounded-2xl border border-hairline bg-hairline sm:grid-cols-2">
+          {features.map(({ icon: Icon, title, description }, index) => (
             <motion.div
               key={title}
-              initial={{ opacity: 0, y: 48 }}
+              initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{
-                duration: 0.9,
-                delay: (index % 2) * 0.12,
+                duration: 0.6,
+                delay: index * 0.05,
                 ease: EASE_PREMIUM,
               }}
-              className={tilt}
+              className="bg-paper p-6 md:p-8"
             >
-              <div className="bezel-sm h-full transition-transform duration-700 ease-premium hover:-translate-y-1.5 hover:rotate-0">
-                <div className="bezel-core-sm flex h-full flex-col gap-4 p-7">
-                  <span className={`flex size-12 items-center justify-center rounded-2xl ${chip} ${tint} transition-transform duration-500 ease-premium group-hover:scale-110`}>
-                    <Icon className="size-5" strokeWidth={1.5} />
-                  </span>
-                  <h3 className="font-display text-lg font-semibold text-ink">
-                    {title}
-                  </h3>
-                  <p className="text-sm leading-6 text-ink-soft">
-                    {description}
-                  </p>
-                </div>
-              </div>
+              <span className="flex size-10 items-center justify-center rounded-lg border border-hairline bg-white/[0.03] text-ink-soft">
+                <Icon className="size-5" strokeWidth={1.5} />
+              </span>
+              <h3 className="mt-5 font-display text-lg font-semibold tracking-tight text-ink">
+                {title}
+              </h3>
+              <p className="mt-2 text-sm leading-6 text-ink-soft">
+                {description}
+              </p>
             </motion.div>
           ))}
         </div>

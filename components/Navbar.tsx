@@ -58,8 +58,8 @@ const Navbar = () => {
       <div className="fixed inset-x-0 top-0 z-40 flex justify-center px-4 pt-4 sm:pt-5">
         <div className="flex w-full max-w-5xl items-center justify-between gap-4 rounded-full bg-white/[0.06] py-2 pl-5 pr-2 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.1),0_16px_48px_-16px_rgba(0,0,0,0.8)] backdrop-blur-2xl">
           <Link href="/" className="flex items-center gap-3">
-            <span className="flex size-9 items-center justify-center rounded-full bg-gradient-to-b from-brand-hover to-brand font-display text-lg font-bold text-brand-ink shadow-[0_6px_20px_-6px_rgba(52,211,153,0.7)]">
-              E
+            <span className="flex size-8 items-center justify-center rounded-lg border border-hairline bg-white/[0.04] font-display text-sm font-semibold tracking-tight text-ink">
+              ER
             </span>
             <span className="logo-text">Echo Reads</span>
           </Link>
@@ -102,12 +102,10 @@ const Navbar = () => {
             <div className="hidden items-center gap-3 lg:flex">
               <Show when="signed-out">
                 <SignInButton mode="modal" fallbackRedirectUrl="/library">
-                  <button className="group inline-flex cursor-pointer items-center gap-2 rounded-full bg-gradient-to-b from-brand-hover to-brand px-5 py-2.5 text-sm font-semibold text-brand-ink transition-all duration-500 ease-premium hover:-translate-y-px active:scale-[0.97]">
-                    Sign In
-                    <span className="flex size-5 items-center justify-center rounded-full bg-brand-ink/15 transition-transform duration-500 ease-premium group-hover:translate-x-0.5">
-                      <ArrowRight className="size-3" strokeWidth={2} />
-                    </span>
-                  </button>
+          <button className="inline-flex cursor-pointer items-center gap-2 rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-brand-ink transition-colors duration-200 hover:bg-brand-hover active:scale-[0.98]">
+            Sign in
+            <ArrowRight className="size-4" strokeWidth={1.75} />
+          </button>
                 </SignInButton>
               </Show>
 
@@ -228,9 +226,9 @@ const Navbar = () => {
                   <SignInButton mode="modal" fallbackRedirectUrl="/library">
                     <button
                       onClick={() => setIsMenuOpen(false)}
-                      className="w-full cursor-pointer rounded-full bg-gradient-to-b from-brand-hover to-brand px-6 py-4 text-base font-semibold text-brand-ink shadow-[0_16px_36px_-14px_rgba(52,211,153,0.6)] transition-transform duration-300 active:scale-[0.98]"
+                      className="w-full cursor-pointer rounded-full bg-brand px-6 py-4 text-base font-semibold text-brand-ink transition-colors duration-200 hover:bg-brand-hover active:scale-[0.98]"
                     >
-                      Get Started Free
+                      Get started free
                     </button>
                   </SignInButton>
                 </Show>
